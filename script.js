@@ -505,20 +505,47 @@ function placeWateringCanForCurrentScreen() {
   const stageRect = stage.getBoundingClientRect();
   const bouquetRect = els.bouquet.getBoundingClientRect();
   const canRect = els.wateringCan.getBoundingClientRect();
-  const narrow = window.innerWidth <= 700;
+  const isPhone = window.innerWidth <= 700;
 
-  // Position the can beside the visible bouquet and keep it inside the stage.
-  let left = narrow
-    ? bouquetRect.right - stageRect.left - canRect.width * 0.10
-    : bouquetRect.right - stageRect.left + canRect.width * 0.28;
-  let top = narrow
-    ? bouquetRect.bottom - stageRect.top - canRect.height * 0.55
-    : bouquetRect.top - stageRect.top + bouquetRect.height * 0.58;
+  let left;
+  let top;
 
-  const halfW = canRect.width / 2;
-  const halfH = canRect.height / 2;
-  left = clamp(left, halfW + 8, stageRect.width - halfW - 8);
-  top = clamp(top, halfH + 8, stageRect.height - halfH - 12);
+  if (isPhone) {
+    left =
+      bouquetRect.left -
+      stageRect.left +
+      bouquetRect.width * 0.28;
+
+    top =
+      bouquetRect.top -
+      stageRect.top +
+      bouquetRect.height * 0.66;
+  } else {
+    left =
+      bouquetRect.right -
+      stageRect.left +
+      canRect.width * 0.22;
+
+    top =
+      bouquetRect.top -
+      stageRect.top +
+      bouquetRect.height * 0.58;
+  }
+
+  const halfWidth = canRect.width / 2;
+  const halfHeight = canRect.height / 2;
+
+  left = clamp(
+    left,
+    halfWidth + 12,
+    stageRect.width - halfWidth - 12
+  );
+
+  top = clamp(
+    top,
+    halfHeight + 12,
+    stageRect.height - halfHeight - 12
+  );
 
   els.wateringCan.style.left = `${left}px`;
   els.wateringCan.style.top = `${top}px`;
