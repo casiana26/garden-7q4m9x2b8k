@@ -2989,3 +2989,134 @@ body { overflow-x: hidden; }
       rotate(var(--can-rotate, 0deg)) !important;
   }
 }
+
+
+/* ===== BUCHET FOTO COMPACT PE TELEFON ===== */
+@media (max-width: 520px) {
+
+  .galleryStage {
+    padding-left: 8px !important;
+    padding-right: 8px !important;
+  }
+
+  .photoGarden {
+    width: min(94vw, 390px) !important;
+    height: 500px !important;
+    min-height: 500px !important;
+    margin: 8px auto 0 !important;
+    overflow: visible !important;
+  }
+
+  /* Florile cu fotografii: puțin mai mari și apropiate */
+  .photoGarden .photoPeony {
+    --size: clamp(66px, 18vw, 78px) !important;
+  }
+
+  /* Forma compactă de buchet */
+  .photoGarden .photoPeony:nth-child(1) {
+    left: 50% !important;
+    top: 8% !important;
+  }
+
+  .photoGarden .photoPeony:nth-child(2) {
+    left: 36% !important;
+    top: 18% !important;
+  }
+
+  .photoGarden .photoPeony:nth-child(3) {
+    left: 64% !important;
+    top: 18% !important;
+  }
+
+  .photoGarden .photoPeony:nth-child(4) {
+    left: 25% !important;
+    top: 31% !important;
+  }
+
+  .photoGarden .photoPeony:nth-child(5) {
+    left: 42% !important;
+    top: 31% !important;
+  }
+
+  .photoGarden .photoPeony:nth-child(6) {
+    left: 58% !important;
+    top: 31% !important;
+  }
+
+  .photoGarden .photoPeony:nth-child(7) {
+    left: 75% !important;
+    top: 31% !important;
+  }
+
+  .photoGarden .photoPeony:nth-child(8) {
+    left: 31% !important;
+    top: 45% !important;
+  }
+
+  .photoGarden .photoPeony:nth-child(9) {
+    left: 50% !important;
+    top: 44% !important;
+  }
+
+  .photoGarden .photoPeony:nth-child(10) {
+    left: 69% !important;
+    top: 45% !important;
+  }
+
+  .photoGarden .photoPeony:nth-child(11) {
+    left: 40% !important;
+    top: 59% !important;
+  }
+
+  .photoGarden .photoPeony:nth-child(12) {
+    left: 60% !important;
+    top: 59% !important;
+  }
+
+  /*
+    Florile decorative generate din JS sunt foarte multe și se împrăștie
+    până la marginile ecranului. Pe telefon le ascundem și desenăm altele
+    compacte în spatele buchetului.
+  */
+  .photoGarden .gardenFillerFlower {
+    display: none !important;
+  }
+
+  /* Flori decorative compacte, în spatele celor 12 bujori */
+  .photoGarden {
+    background:
+      radial-gradient(circle at 20% 24%,
+        #f8dbe7 0 12px, #e9a8c3 13px 21px, transparent 22px),
+      radial-gradient(circle at 80% 24%,
+        #ffdce9 0 12px, #e6a1bd 13px 21px, transparent 22px),
+
+      radial-gradient(circle at 16% 43%,
+        #f5cbdc 0 11px, #dc8eae 12px 20px, transparent 21px),
+      radial-gradient(circle at 84% 43%,
+        #f8d6e3 0 11px, #e29ab8 12px 20px, transparent 21px),
+
+      radial-gradient(circle at 22% 60%,
+        #ffe3ed 0 10px, #e8a4bf 11px 19px, transparent 20px),
+      radial-gradient(circle at 78% 60%,
+        #f8d3e1 0 10px, #d990ae 11px 19px, transparent 20px),
+
+      radial-gradient(circle at 31% 71%,
+        #f6d5e2 0 9px, #df98b5 10px 17px, transparent 18px),
+      radial-gradient(circle at 69% 71%,
+        #ffe1eb 0 9px, #e6a0bd 10px 17px, transparent 18px);
+    background-repeat: no-repeat;
+  }
+
+  /* Frunzele și învelișul urcă sub flori */
+  .photoGarden::before {
+    bottom: 32px !important;
+    width: 68% !important;
+    height: 235px !important;
+  }
+
+  .photoGarden::after {
+    bottom: 2px !important;
+    width: 70% !important;
+    height: 125px !important;
+  }
+}
