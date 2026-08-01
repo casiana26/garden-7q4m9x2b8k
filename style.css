@@ -3120,3 +3120,103 @@ body { overflow-x: hidden; }
     height: 125px !important;
   }
 }
+
+
+/* ===== BUCHET FOTO FOARTE COMPACT PE TELEFON ===== */
+@media (max-width: 520px) {
+
+  .photoGarden{
+    width: 330px !important;
+    max-width: calc(100vw - 28px) !important;
+    height: 430px !important;
+    min-height: 430px !important;
+    margin: 8px auto 0 !important;
+    overflow: visible !important;
+  }
+
+  .photoGarden .photoPeony{
+    --size: 70px !important;
+  }
+
+  /* ascundem floricelele prea împrăștiate */
+  .photoGarden .gardenFillerFlower{
+    display: none !important;
+  }
+
+  /* rândul de sus */
+  .photoGarden .photoPeony[data-index="0"]{
+    left: 50% !important;
+    top: 9% !important;
+  }
+
+  .photoGarden .photoPeony[data-index="1"]{
+    left: 37% !important;
+    top: 19% !important;
+  }
+
+  .photoGarden .photoPeony[data-index="2"]{
+    left: 63% !important;
+    top: 19% !important;
+  }
+
+  /* rândul din mijloc */
+  .photoGarden .photoPeony[data-index="3"]{
+    left: 25% !important;
+    top: 32% !important;
+  }
+
+  .photoGarden .photoPeony[data-index="4"]{
+    left: 42% !important;
+    top: 32% !important;
+  }
+
+  .photoGarden .photoPeony[data-index="5"]{
+    left: 58% !important;
+    top: 32% !important;
+  }
+
+  .photoGarden .photoPeony[data-index="6"]{
+    left: 75% !important;
+    top: 32% !important;
+  }
+
+  /* rândul următor */
+  .photoGarden .photoPeony[data-index="7"]{
+    left: 33% !important;
+    top: 47% !important;
+  }
+
+  .photoGarden .photoPeony[data-index="8"]{
+    left: 50% !important;
+    top: 46% !important;
+  }
+
+  .photoGarden .photoPeony[data-index="9"]{
+    left: 67% !important;
+    top: 47% !important;
+  }
+
+  /* baza buchetului */
+  .photoGarden .photoPeony[data-index="10"]{
+    left: 42% !important;
+    top: 61% !important;
+  }
+
+  .photoGarden .photoPeony[data-index="11"]{
+    left: 58% !important;
+    top: 61% !important;
+  }
+
+  /* frunzele și ambalajul urcă imediat sub flori */
+  .photoGarden::before{
+    width: 62% !important;
+    height: 210px !important;
+    bottom: 20px !important;
+  }
+
+  .photoGarden::after{
+    width: 64% !important;
+    height: 112px !important;
+    bottom: 0 !important;
+  }
+}
