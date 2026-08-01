@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow, noarchive" />
+  <title>Surpriza aniversară</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app" aria-live="polite">
+    <!-- Ambient layer -->
+    <div class="bg" aria-hidden="true">
+      <div class="stars"></div>
+      <div class="vignette"></div>
+    </div>
+
+    <!-- Toast / small hints -->
+    <div id="toast" class="toast" role="status" aria-hidden="true"></div>
+
+    <!-- Muzica pornește după prima interacțiune și rulează în buclă -->
+    <audio id="bgm" loop preload="auto">
+      <source src="music/song.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- =============== STEP 1 =============== -->
+    <section class="step step-1" data-step="1">
+      <div class="center">
+        <h1 class="title">O surpriză începe să înflorească</h1>
+        <p class="subtitle">
+          12 bujori așteaptă să fie udați — fiecare ascunde o fotografie și o amintire.
+        </p>
+        <div class="ctaRow">
+          <button id="enterBtn" class="btn primary">Start</button>
+        </div>
+        <div class="sparkles" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- =============== STEP 2-3 BLOOM =============== -->
+    <section class="step step-2" data-step="2">
+      <div class="layout">
+        <header class="topBar">
+          <div class="brand">
+            <span class="brandDot"></span>
+            <span>Grădina cu bujori</span>
+          </div>
+          <div class="progressWrap" aria-live="polite">
+            <div class="progressLabel">Progresul înfloririi</div>
+            <div class="progressValue" id="bloomPct">0%</div>
+            <div class="progressBar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+              <div class="progressFill"></div>
+            </div>
+          </div>
+        </header>
+
+        <main class="stage" aria-label="Scena buchetului">
+          <div class="waterPrompt">
+            <div class="waterPromptTitle">Bujorii așteaptă să fie udați…</div>
+            <div class="waterPromptText">Mută stropitoarea și înclin-o deasupra buchetului.</div>
+          </div>
+
+          <div class="bouquetWrap" id="bouquetWrap">
+            <!-- Bouquet silhouette -->
+            <div class="bouquet">
+              <div class="stem"></div>
+
+              <!-- Peony ring -->
+              <div class="peonies" id="peonies">
+                <!-- JS will populate 12 peonies -->
+              </div>
+
+              <!-- Decorative blossoms (non-clickable) -->
+              <div class="decor decor-1"></div>
+              <div class="decor decor-2"></div>
+              <div class="decor decor-3"></div>
+              <div class="decor decor-4"></div>
+              <div class="decor decor-5"></div>
+              <div class="decor decor-6"></div>
+
+              <!-- Decorative ribbon only; the letter appears later as a full-screen surprise -->
+              <div class="ribbonWrap ribbonOnly" aria-hidden="true">
+                <div class="ribbon">
+                  <div class="ribbonKnot"></div>
+                  <div class="ribbonTail"></div>
+                  <div class="ribbonTail right"></div>
+                </div>
+              </div>
+
+              <div class="pot">
+                <div class="potRim"></div>
+                <div class="potBody"></div>
+                <div class="potShadow"></div>
+              </div>
+            </div>
+
+            <!-- Falling water droplets layer -->
+            <div class="dropletsLayer" id="dropletsLayer" aria-hidden="true"></div>
+
+            <!-- Lantern-like glow / spotlight -->
+            <div class="spotlight" id="spotlight" aria-hidden="true"></div>
+          </div>
+
+          <!-- Stropitoare mobilă -->
+          <div id="wateringCan" class="wateringCan" role="application" aria-label="Stropitoare mobilă">
+            <div class="canGlow" aria-hidden="true"></div>
+            <div class="canBody">
+              <div class="canShine"></div>
+              <div class="canHandle"></div>
+              <div class="canSpout"></div>
+              <div class="canSpoutTip"></div>
+            </div>
+            <div class="canWaterLevel" aria-hidden="true"></div>
+            <div class="canHint">Stropitoare</div>
+          </div>
+
+          <div class="controlsBar">
+            
+          </div>
+
+          <div id="bloomDoneOverlay" class="finishOverlay hidden" aria-live="polite">
+            <div class="finishCard">
+              <div class="finishTitle">Toți bujorii au înflorit ✨</div>
+              <div class="finishText">Acum alege o floare.</div>
+              <button id="continueToPhotosBtn" class="btn primary">Continuă</button>
+            </div>
+          </div>
+        </main>
+      </div>
+    </section>
+
+    <!-- =============== STEP 4-7 PHOTO FLOWERS =============== -->
+    <section class="step step-4" data-step="4">
+      <header class="topBar fixed">
+        <div class="brand">
+          <span class="brandDot"></span>
+          <span>Bujorii cu fotografii</span>
+        </div>
+        <div class="photoProgress">
+          <span>Descoperite:</span>
+          <strong id="unlockedCount">0</strong>
+          <span>/</span>
+          <strong>12</strong>
+        </div>
+      </header>
+
+      <div class="galleryStage">
+        <h2 class="sectionTitle">Atinge un bujor: mai întâi fotografia, apoi amintirea</h2>
+        <p class="sectionSubtitle">Apasă butonul din fereastră pentru a descoperi amintirea ❤️</p>
+
+        <div class="photoGarden" id="photoGarden">
+          <!-- JS will create the 12 photo peonies here, matching positions -->
+        </div>
+
+        <!-- Decorative non-clickable extra flourish -->
+        <div class="petalDrift" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span>
+        </div>
+
+        <div id="allMemoriesMessage" class="allMemoriesMessage hidden" aria-live="polite">
+          Ai descoperit toate florile… urmează momentul dorinței.
+        </div>
+      </div>
+    </section>
+
+    <!-- =============== STEP 8-9 LETTER + CONFETTI =============== -->
+    <section class="step step-8" data-step="8">
+      <div class="letterStage">
+        <div class="letterHeader">
+          <h2>Ultima surpriză…</h2>
+          <p>Apasă plicul pentru a deschide scrisoarea.</p>
+        </div>
+
+        <button id="openLetterBtn" class="grandEnvelope" type="button" aria-label="Deschide scrisoarea aniversară">
+          <span class="grandEnvelopeShadow" aria-hidden="true"></span>
+          <span class="grandEnvelopeBack" aria-hidden="true"></span>
+          <span class="grandLetterPaper" aria-hidden="true">
+            <span class="paperHeading">Pentru tine</span>
+          </span>
+          <span class="grandEnvelopeFront" aria-hidden="true"></span>
+          <span class="grandEnvelopeFlap" aria-hidden="true"></span>
+          <span class="waxSeal" aria-hidden="true">♥</span>
+          <span class="grandEnvelopeHint">Apasă pentru a deschide</span>
+        </button>
+
+        <div id="letterPaper" class="typewriterWrap letterPaper hidden">
+          <div id="typewriter" class="typewriter" aria-live="polite"></div>
+          <div id="unlockLastLine" class="unlockLastLine hidden">
+            La mulți ani! ❤️
+          </div>
+          <button id="restartExperienceBtn" class="btn primary restartExperienceBtn hidden" type="button">
+            ✨ Începe din nou
+          </button>
+        </div>
+      </div>
+
+      <div class="confettiStage" aria-hidden="true">
+        <div class="confettiCanvas" id="confettiCanvas"></div>
+      </div>
+    </section>
+
+    <!-- =============== TORTUL CU 17 LUMÂNĂRI =============== -->
+    <section class="step step-10" data-step="10">
+      <div class="finalScene cakeScene">
+        <div class="finalGlow" aria-hidden="true"></div>
+        <div class="finalTitleBlock">
+          <h1 class="finalTitle">Pune-ți o dorință, <span id="nameFill">Ina</span>! ✨</h1>
+          <p class="finalSubtitle">Stinge toate cele 17 lumânări pentru a descoperi ultima surpriză.</p>
+        </div>
+
+        <div class="cakeCard">
+          
+          <div class="birthdayCake" aria-label="Tort aniversar cu 17 lumânări">
+            <div id="candlesRow" class="candlesRow seventeenCandles"></div>
+            <div class="cakeTop">
+              <span class="cakeFlower cakeFlower-1"></span>
+              <span class="cakeFlower cakeFlower-2"></span>
+              <span class="cakeFlower cakeFlower-3"></span>
+              <span class="cakePearl pearl-1"></span>
+              <span class="cakePearl pearl-2"></span>
+              <span class="cakePearl pearl-3"></span>
+            </div>
+            <div class="cakeLayer cakeLayer-top"><span class="drip drip-1"></span><span class="drip drip-2"></span><span class="drip drip-3"></span></div>
+            <div class="cakeLayer cakeLayer-bottom"></div>
+            <div class="cakePlate"></div>
+          </div>
+          <p id="candleCounter" class="finalText">Lumânări stinse: 0 / 17</p>
+          <p class="cakeInstruction">Atinge fiecare flacără pentru a o stinge.</p>
+          <div id="cakeCompleteMessage" class="cakeCompleteMessage hidden">Dorința ta este pe drum… iar un plic te așteaptă.</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Fotografie modal overlay (used by the 12 peonies) -->
+  <div id="overlayRoot" class="overlayRoot hidden" role="dialog" aria-modal="true" aria-label="Fereastră cu fotografie">
+    <div class="overlayBackdrop" id="overlayBackdrop"></div>
+
+    <div class="overlayCard" id="overlayCard">
+      <button class="overlayClose" id="overlayClose" aria-label="Închide fereastra">✕</button>
+
+      <div class="overlayTop">
+        <div class="overlayTag">Bujor cu fotografie</div>
+      </div>
+
+      <div class="overlayPhotoWrap">
+        <button class="overlayZoomHint" id="overlayZoomHint" title="Click to zoom">Atinge fotografia pentru zoom</button>
+        <img id="overlayPhoto" alt="Fotografie" class="overlayPhoto" />
+      </div>
+
+      <div class="overlayMemory">
+        <button id="revealMemoryBtn" class="btn revealBtn">
+          Descoperă amintirea <span aria-hidden="true">❤️</span>
+        </button>
+        <div id="overlayMemoryText" class="memoryText hidden"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

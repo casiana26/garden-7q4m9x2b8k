@@ -1,0 +1,2919 @@
+:root{
+  --bg0:#09050f;
+  --bg1:#16091f;
+  --bg2:#24102f;
+  --plum:#351342;
+  --pink0:#fff0f7;
+  --pink1:#ffd0e5;
+  --pink2:#ffabcF;
+  --pink3:#f77fba;
+  --pink4:#e95ba5;
+  --rose0:#f8c8dd;
+  --rose1:#ee96bd;
+  --rose2:#d86d9f;
+  --gold0:#fff0c8;
+  --gold1:#e6c079;
+  --gold2:#b8893f;
+  --green0:#b8c7a2;
+  --green1:#7d9770;
+  --green2:#415b43;
+  --ink:#3a2234;
+  --paper:#fffaf7;
+  --paper2:#f9efe8;
+  --glass:rgba(255,255,255,.08);
+  --glass2:rgba(255,255,255,.14);
+  --glass3:rgba(255,255,255,.22);
+  --shadow:0 18px 50px rgba(0,0,0,.38);
+  --shadow2:0 8px 26px rgba(0,0,0,.28);
+  --shadow3:0 32px 90px rgba(0,0,0,.45);
+  --ringShadow:0 18px 60px rgba(238,150,189,.22);
+  --focus:rgba(247,127,186,.38);
+  --radius:18px;
+  --radius2:28px;
+  --ease:cubic-bezier(.2,.9,.2,1);
+  --ease-soft:cubic-bezier(.22,.61,.36,1);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  color:rgba(255,255,255,.94);
+  background:
+    radial-gradient(1100px 820px at 24% 18%,rgba(108,39,120,.35),transparent 58%),
+    radial-gradient(900px 650px at 80% 24%,rgba(239,102,168,.18),transparent 60%),
+    radial-gradient(900px 700px at 50% 100%,rgba(224,181,112,.09),transparent 55%),
+    linear-gradient(155deg,var(--bg2),var(--bg1) 42%,var(--bg0));
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+button,input,textarea,select{font:inherit}
+button{touch-action:manipulation}
+img{max-width:100%;display:block}
+
+#app{position:relative;min-height:100vh;isolation:isolate}
+.bg{position:fixed;inset:0;pointer-events:none;z-index:-2;overflow:hidden}
+.stars{
+  position:absolute;inset:-80px;
+  background:
+    radial-gradient(circle at 10% 20%,rgba(255,232,246,.56) 0 1px,transparent 1.7px),
+    radial-gradient(circle at 29% 70%,rgba(255,209,232,.44) 0 1.2px,transparent 1.9px),
+    radial-gradient(circle at 64% 15%,rgba(255,255,255,.42) 0 1px,transparent 1.7px),
+    radial-gradient(circle at 81% 54%,rgba(255,224,241,.48) 0 1.2px,transparent 2px),
+    radial-gradient(circle at 46% 42%,rgba(232,197,255,.36) 0 1px,transparent 1.8px),
+    radial-gradient(circle at 88% 16%,rgba(255,239,219,.4) 0 1px,transparent 1.8px);
+  background-size:210px 210px,280px 280px,190px 190px,250px 250px,320px 320px,230px 230px;
+  opacity:.75;
+  filter:drop-shadow(0 0 8px rgba(255,191,226,.38));
+  animation:floatStars 15s var(--ease) infinite alternate;
+}
+.stars::before,.stars::after{
+  content:"";position:absolute;border-radius:50%;filter:blur(40px);opacity:.45;
+}
+.stars::before{width:360px;height:360px;left:6%;top:18%;background:rgba(210,100,175,.22);animation:bokeh 10s ease-in-out infinite}
+.stars::after{width:420px;height:420px;right:3%;bottom:5%;background:rgba(174,95,202,.16);animation:bokeh 12s 2s ease-in-out infinite reverse}
+@keyframes floatStars{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(0,-16px,0) scale(1.03)}}
+@keyframes bokeh{0%,100%{transform:translate3d(0,0,0) scale(.9)}50%{transform:translate3d(24px,-20px,0) scale(1.12)}}
+.vignette{position:absolute;inset:0;background:radial-gradient(circle at 50% 30%,transparent 0 36%,rgba(2,0,5,.2) 68%,rgba(2,0,5,.72) 100%)}
+
+.step{display:none;min-height:100vh;position:relative;z-index:1}
+.step.active{display:block;animation:stepIn .75s var(--ease) both}
+.hidden{display:none!important}
+@keyframes stepIn{from{opacity:0;transform:translateY(8px) scale(.995)}to{opacity:1;transform:none}}
+
+/* GLOBAL BUTTONS */
+.btn{
+  border:0;cursor:pointer;padding:12px 20px;border-radius:999px;font-weight:750;letter-spacing:.015em;
+  transition:transform .2s var(--ease),background .2s var(--ease),box-shadow .2s var(--ease),opacity .2s var(--ease),border-color .2s var(--ease);
+  user-select:none;position:relative;overflow:hidden;
+}
+.btn::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 0 40%,rgba(255,255,255,.25) 50%,transparent 60%);transform:translateX(-140%);transition:transform .55s ease}
+.btn:hover::after{transform:translateX(140%)}
+.btn:focus-visible{outline:none;box-shadow:0 0 0 4px var(--focus)}
+.btn:active{transform:translateY(1px) scale(.985)}
+.btn.primary{background:linear-gradient(135deg,#f3b6cf,#df7eaa 52%,#bd5d91);color:#321524;box-shadow:0 14px 38px rgba(217,104,155,.28),inset 0 1px 0 rgba(255,255,255,.6)}
+.btn.primary:hover{transform:translateY(-2px);box-shadow:0 18px 50px rgba(217,104,155,.38),inset 0 1px 0 rgba(255,255,255,.75)}
+.btn.ghost{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.17);color:rgba(255,255,255,.92);backdrop-filter:blur(12px)}
+.btn.ghost:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.28);transform:translateY(-2px)}
+
+/* TOAST */
+.toast{position:fixed;z-index:1000;left:50%;bottom:28px;transform:translate(-50%,18px);min-width:min(360px,calc(100vw - 36px));padding:12px 16px;border-radius:999px;text-align:center;background:rgba(24,10,34,.88);border:1px solid rgba(255,255,255,.14);box-shadow:var(--shadow2);backdrop-filter:blur(18px);opacity:0;pointer-events:none;transition:.28s var(--ease)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* STEP 1 */
+.center{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:15px;padding:28px;position:relative;text-align:center}
+.center::before{content:"";width:170px;height:170px;border-radius:50%;position:absolute;top:18%;background:radial-gradient(circle at 50% 38%,#ffe9f4 0 6%,#f5b3d0 7% 18%,#df7caf 19% 36%,#8f3f77 37% 56%,rgba(79,26,74,.4) 57% 72%,transparent 73%);filter:drop-shadow(0 18px 40px rgba(231,124,177,.28));opacity:.38;animation:introBloom 5s ease-in-out infinite}
+@keyframes introBloom{0%,100%{transform:translateY(0) scale(.96) rotate(-2deg);filter:drop-shadow(0 16px 35px rgba(231,124,177,.24))}50%{transform:translateY(-8px) scale(1.025) rotate(2deg);filter:drop-shadow(0 24px 55px rgba(231,124,177,.4))}}
+.title{font-family:Georgia,"Times New Roman",serif;font-size:clamp(2.4rem,5.2vw,4.9rem);line-height:.98;margin:170px 0 0;letter-spacing:-.045em;font-weight:600;text-wrap:balance;text-shadow:0 18px 70px rgba(239,150,190,.16)}
+.subtitle{max-width:630px;margin:0;color:rgba(255,255,255,.76);line-height:1.68;font-size:clamp(.98rem,1.6vw,1.12rem)}
+.ctaRow{display:flex;gap:12px;margin-top:10px;flex-wrap:wrap;justify-content:center}
+.sparkles{width:min(420px,85vw);height:90px;position:relative;margin-top:14px;opacity:.95}
+.sparkles span{position:absolute;top:44%;left:50%;width:7px;height:7px;border-radius:50%;background:rgba(255,225,242,.9);box-shadow:0 0 18px rgba(255,184,224,.85);animation:sparkle 2.4s var(--ease) infinite}
+.sparkles span:nth-child(1){left:18%;animation-delay:0s}
+.sparkles span:nth-child(2){left:34%;top:62%;animation-delay:.35s;background:rgba(255,205,229,.9)}
+.sparkles span:nth-child(3){left:50%;top:30%;animation-delay:.7s;width:5px;height:5px}
+.sparkles span:nth-child(4){left:66%;top:58%;animation-delay:1.05s;background:rgba(255,236,205,.8)}
+.sparkles span:nth-child(5){left:82%;animation-delay:1.4s}
+@keyframes sparkle{0%,100%{transform:translate(-50%,-50%) scale(.45);opacity:.18}45%{transform:translate(-50%,-50%) scale(1.2);opacity:1}70%{transform:translate(-50%,-50%) scale(.75);opacity:.45}}
+
+/* SHARED TOP BAR */
+.layout{min-height:100vh;display:flex;flex-direction:column}
+.topBar{width:100%;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:18px clamp(18px,4vw,50px);position:relative;z-index:20;border-bottom:1px solid rgba(255,255,255,.08);background:linear-gradient(to bottom,rgba(12,5,18,.72),rgba(12,5,18,.22));backdrop-filter:blur(16px)}
+.topBar.fixed{position:sticky;top:0}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;font-size:.78rem;color:rgba(255,255,255,.78)}
+.brandDot{width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,var(--pink1),var(--pink4));box-shadow:0 0 0 5px rgba(238,150,189,.12),0 0 20px rgba(238,150,189,.7)}
+.progressWrap{display:grid;grid-template-columns:auto auto;grid-template-areas:"label value" "bar bar";column-gap:10px;row-gap:6px;min-width:min(310px,48vw)}
+.progressLabel{grid-area:label;font-size:.76rem;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.55)}
+.progressValue{grid-area:value;text-align:right;font-weight:800}
+.progressBar{grid-area:bar;height:7px;border-radius:999px;background:rgba(255,255,255,.09);overflow:hidden;box-shadow:inset 0 1px 3px rgba(0,0,0,.25)}
+.progressFill{width:0;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--pink2),var(--pink4),var(--gold1));box-shadow:0 0 20px rgba(240,132,183,.6);transition:width .45s var(--ease)}
+
+/* BLOOM STAGE */
+.stage{flex:1;min-height:calc(100vh - 80px);display:grid;grid-template-columns:1fr;place-items:center;padding:34px 20px 100px;position:relative;overflow:hidden}
+.waterPrompt{text-align:center;position:absolute;top:26px;left:50%;transform:translateX(-50%);z-index:10;pointer-events:none;width:min(650px,92vw)}
+.waterPromptTitle{font-family:Georgia,"Times New Roman",serif;font-size:clamp(1.55rem,3vw,2.5rem);margin-bottom:5px}
+.waterPromptText{color:rgba(255,255,255,.66);font-size:.95rem}
+.bouquetWrap{position:relative;width:min(720px,94vw);height:min(690px,78vh);display:grid;place-items:center;filter:drop-shadow(0 35px 70px rgba(0,0,0,.34));perspective:1200px}
+.bouquet{position:relative;width:560px;height:600px;transform-origin:50% 100%;animation:bouquetBreath 5.8s ease-in-out infinite}
+@keyframes bouquetBreath{0%,100%{transform:translateY(2px) rotate(-.4deg) scale(.995)}50%{transform:translateY(-5px) rotate(.45deg) scale(1.006)}}
+.stem{position:absolute;left:50%;top:180px;width:18px;height:285px;transform:translateX(-50%);border-radius:50%;background:linear-gradient(90deg,#263c2d,#78906d 46%,#304a36);box-shadow:-45px 14px 0 -36px #587056,45px 30px 0 -36px #587056}
+.stem::before,.stem::after{content:"";position:absolute;width:150px;height:52px;border-radius:100% 0 100% 0;background:linear-gradient(135deg,#789471,#354c3b);box-shadow:inset 8px 7px 14px rgba(255,255,255,.08),0 12px 20px rgba(0,0,0,.2)}
+.stem::before{left:-130px;top:76px;transform:rotate(24deg)}
+.stem::after{right:-130px;top:142px;transform:scaleX(-1) rotate(20deg)}
+.peonies{position:absolute;inset:30px 30px 180px;transform-style:preserve-3d}
+
+/* GENERATED FLOWERS */
+.peony,.photoPeony{
+  --size:104px;--rot:0deg;--delay:0s;position:absolute;width:var(--size);height:var(--size);border:0;background:none;padding:0;cursor:pointer;transform:translate(-50%,-50%) rotate(var(--rot)) scale(var(--bloom,.42));transform-origin:50% 68%;transition:transform .8s var(--ease),filter .35s ease,opacity .35s ease;filter:saturate(.55) brightness(.72);isolation:isolate
+}
+.peony::before,.peony::after,.photoPeony::before,.photoPeony::after{content:"";position:absolute;inset:0;border-radius:50%;pointer-events:none}
+.peony::before,.photoPeony::before{
+  background:
+    radial-gradient(ellipse at 50% 48%,rgba(255,245,249,.96) 0 7%,transparent 8%),
+    radial-gradient(ellipse at 38% 42%,#f7c7d9 0 15%,transparent 16%),
+    radial-gradient(ellipse at 62% 42%,#f4b8d1 0 15%,transparent 16%),
+    radial-gradient(ellipse at 50% 28%,#ffd9e6 0 15%,transparent 16%),
+    radial-gradient(ellipse at 50% 67%,#e994b7 0 18%,transparent 19%),
+    radial-gradient(ellipse at 25% 55%,#efa7c5 0 19%,transparent 20%),
+    radial-gradient(ellipse at 75% 55%,#e48aae 0 19%,transparent 20%),
+    radial-gradient(circle,#eaa2bf 0 62%,#b65286 63% 70%,transparent 71%);
+  box-shadow:inset 0 0 18px rgba(89,25,59,.25),0 16px 34px rgba(0,0,0,.28),0 0 34px rgba(242,137,183,.2);
+}
+.peony::after,.photoPeony::after{inset:18%;background:repeating-conic-gradient(from 20deg,rgba(255,246,250,.7) 0 8deg,rgba(228,129,168,.58) 8deg 18deg,rgba(255,226,238,.58) 18deg 28deg);mask:radial-gradient(circle,black 0 52%,transparent 54%);filter:blur(.25px);opacity:.82;box-shadow:inset 0 0 14px rgba(107,41,72,.22)}
+.peony .flowerCore,.photoPeony .flowerCore{position:absolute;left:50%;top:50%;width:22%;height:22%;transform:translate(-50%,-50%);border-radius:50%;z-index:2;background:radial-gradient(circle,#fff3c8 0 12%,#eac16f 13% 34%,#a76f2f 35% 44%,transparent 45%);filter:drop-shadow(0 2px 4px rgba(0,0,0,.3))}
+.peony.bloomed,.photoPeony.bloomed{--bloom:1;filter:saturate(1.05) brightness(1)}
+.peony.bloomed{animation:flowerSway 4s calc(var(--delay) + .4s) ease-in-out infinite}
+@keyframes flowerSway{0%,100%{transform:translate(-50%,-50%) rotate(calc(var(--rot) - 1.5deg)) scale(var(--bloom,1))}50%{transform:translate(-50%,-53%) rotate(calc(var(--rot) + 1.5deg)) scale(calc(var(--bloom,1) * 1.015))}}
+.peony:hover,.photoPeony:hover{filter:saturate(1.12) brightness(1.06) drop-shadow(0 0 20px rgba(255,183,220,.38));z-index:8}
+.photoPeony.unlocked::after{box-shadow:inset 0 0 14px rgba(107,41,72,.22),0 0 0 4px rgba(255,241,203,.18),0 0 35px rgba(255,219,155,.46)}
+.photoPeony.unlocked .unlockMark{opacity:1;transform:scale(1)}
+.unlockMark{position:absolute;right:0;top:3px;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--gold0),var(--gold1));color:#4b2e12;font-weight:900;font-size:.72rem;z-index:5;box-shadow:0 4px 14px rgba(0,0,0,.3);opacity:0;transform:scale(.4);transition:.32s var(--ease)}
+
+/* Decorative flowers */
+.decor{position:absolute;width:78px;height:78px;border-radius:50%;background:
+  radial-gradient(circle at 50% 50%,#fff2c4 0 8%,transparent 9%),
+  radial-gradient(ellipse at 50% 25%,#f1c7d7 0 25%,transparent 26%),
+  radial-gradient(ellipse at 76% 50%,#e7a8c0 0 25%,transparent 26%),
+  radial-gradient(ellipse at 50% 76%,#d991ae 0 25%,transparent 26%),
+  radial-gradient(ellipse at 24% 50%,#f1b9cc 0 25%,transparent 26%);
+  filter:drop-shadow(0 12px 18px rgba(0,0,0,.22));opacity:.82;transform:scale(.5);transition:transform 1s var(--ease),opacity .6s ease
+}
+.bouquet.is-bloomed .decor{transform:scale(1);opacity:1}
+.decor-1{left:55px;top:160px;--d:.1s}.decor-2{right:40px;top:145px;--d:.2s}.decor-3{left:95px;top:280px;--d:.3s}.decor-4{right:92px;top:285px;--d:.4s}.decor-5{left:165px;top:70px;--d:.5s}.decor-6{right:155px;top:80px;--d:.6s}
+.bouquet.is-bloomed .decor{animation:decorSway 5s var(--d) ease-in-out infinite}
+@keyframes decorSway{0%,100%{transform:scale(1) rotate(-2deg)}50%{transform:scale(1.03) rotate(2deg) translateY(-4px)}}
+
+/* POT + RIBBON + ENVELOPE */
+.pot{position:absolute;left:50%;bottom:8px;width:240px;height:190px;transform:translateX(-50%);z-index:5}
+.potRim{position:absolute;top:4px;left:7px;width:226px;height:54px;border-radius:50%;background:linear-gradient(180deg,#51384b,#2f1e2d);box-shadow:inset 0 10px 18px rgba(255,255,255,.08),0 10px 20px rgba(0,0,0,.35)}
+.potRim::after{content:"";position:absolute;inset:11px 22px;border-radius:50%;background:#170f17;box-shadow:inset 0 7px 12px rgba(0,0,0,.7)}
+.potBody{position:absolute;top:28px;left:18px;width:204px;height:138px;clip-path:polygon(0 0,100% 0,85% 100%,15% 100%);background:linear-gradient(115deg,#624455 0,#3a2536 45%,#251722 100%);border-radius:0 0 34px 34px;box-shadow:inset 18px 0 26px rgba(255,255,255,.04),inset -20px 0 28px rgba(0,0,0,.25),0 24px 40px rgba(0,0,0,.38)}
+.potBody::after{content:"";position:absolute;inset:14px 62px 18px;border-radius:50%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);filter:blur(6px)}
+.potShadow{position:absolute;left:20px;bottom:0;width:200px;height:26px;border-radius:50%;background:rgba(0,0,0,.38);filter:blur(10px)}
+.ribbonWrap{position:absolute;left:50%;bottom:116px;transform:translateX(-50%);z-index:12;width:260px;height:130px}
+.ribbon{position:absolute;left:50%;top:42px;width:120px;height:58px;transform:translateX(-50%);border-radius:50%;background:linear-gradient(145deg,#f3c5d5,#b8628f 58%,#7d355d);box-shadow:inset 0 4px 8px rgba(255,255,255,.3),0 10px 24px rgba(0,0,0,.3)}
+.ribbon::before,.ribbon::after{content:"";position:absolute;top:8px;width:70px;height:48px;border-radius:52% 48% 45% 55%;background:linear-gradient(135deg,#f5d3df,#c36d9b 62%,#843d65);box-shadow:inset 0 5px 8px rgba(255,255,255,.3)}
+.ribbon::before{right:73px;transform:rotate(-18deg)}
+.ribbon::after{left:73px;transform:scaleX(-1) rotate(-18deg)}
+.ribbonTail{position:absolute;left:20px;top:36px;width:58px;height:125px;background:linear-gradient(90deg,#b95d8d,#e9a7c3 45%,#8f426d);clip-path:polygon(15% 0,100% 0,82% 100%,52% 82%,28% 100%);transform:rotate(12deg);filter:drop-shadow(0 12px 12px rgba(0,0,0,.25))}
+.ribbonTail.right{left:auto;right:20px;transform:scaleX(-1) rotate(12deg)}
+.envelopeSeal{position:absolute;left:50%;top:0;transform:translateX(-50%);border:0;background:none;color:white;padding:0;display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;transition:.3s var(--ease)}
+.envelopeSeal:disabled{cursor:default;opacity:.48;filter:grayscale(.25)}
+.envelopeSeal:not(:disabled):hover{transform:translateX(-50%) translateY(-4px) scale(1.03)}
+.envelopeSeal.glow{animation:envelopeGlow 1.6s ease-in-out infinite}
+@keyframes envelopeGlow{0%,100%{filter:drop-shadow(0 0 10px rgba(255,205,228,.2))}50%{filter:drop-shadow(0 0 28px rgba(255,220,170,.72))}}
+.envelope{position:relative;width:92px;height:60px;display:block;perspective:500px}
+.envBack,.envFront,.envFlap,.envStripe{position:absolute;inset:0;border-radius:8px}
+.envBack{background:linear-gradient(145deg,#fdf5ef,#e8d4c7);box-shadow:0 12px 20px rgba(0,0,0,.24)}
+.envFront{clip-path:polygon(0 24%,50% 67%,100% 24%,100% 100%,0 100%);background:linear-gradient(135deg,#fffaf5,#e9d8cc)}
+.envFlap{transform-origin:50% 0;clip-path:polygon(0 0,100% 0,50% 68%);background:linear-gradient(180deg,#fffaf6,#ead8cc);transition:transform .7s var(--ease)}
+.envStripe{inset:auto 12px 11px;height:3px;background:linear-gradient(90deg,transparent,#c59073,transparent);opacity:.4}
+.envelopeSeal.open .envFlap{transform:rotateX(170deg)}
+.envelopeHint{font-size:.73rem;color:rgba(255,255,255,.74)}
+
+/* WATERING CAN */
+.wateringCan{position:absolute;left:calc(50% + 260px);top:48%;width:180px;height:130px;z-index:30;cursor:grab;touch-action:none;user-select:none;transform:translate(-50%,-50%) rotate(var(--can-rotate,0deg));transform-origin:78% 58%;transition:filter .2s ease;filter:drop-shadow(0 20px 24px rgba(0,0,0,.34))}
+.wateringCan.dragging{cursor:grabbing;filter:drop-shadow(0 28px 32px rgba(0,0,0,.46))}
+.canGlow{position:absolute;left:35px;top:28px;width:90px;height:70px;border-radius:50%;background:rgba(238,150,189,.18);filter:blur(20px)}
+.canBody{position:absolute;left:38px;top:28px;width:100px;height:78px;border-radius:24px 24px 32px 32px;background:linear-gradient(135deg,#f8e2e8 0,#c5899f 32%,#8f586e 55%,#d4a6b7 76%,#7e4b60 100%);border:1px solid rgba(255,255,255,.25);box-shadow:inset 10px 8px 18px rgba(255,255,255,.24),inset -10px -8px 18px rgba(55,19,41,.28)}
+.canShine{position:absolute;left:18px;top:11px;width:20px;height:48px;border-radius:50%;background:linear-gradient(180deg,rgba(255,255,255,.7),transparent);filter:blur(2px);opacity:.6}
+.canHandle{position:absolute;left:58px;top:-22px;width:76px;height:74px;border:12px solid #ad7187;border-left-color:#d6a8b8;border-bottom-color:transparent;border-radius:50% 50% 0 0;z-index:-1}
+.canSpout{position:absolute;right:-70px;top:18px;width:88px;height:24px;background:linear-gradient(180deg,#d5a8b7,#845064);clip-path:polygon(0 18%,100% 0,100% 100%,0 78%);transform:rotate(-8deg);transform-origin:left center}
+.canSpoutTip{position:absolute;right:-83px;top:4px;width:30px;height:52px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#ead4db,#8d596c 65%);transform:rotate(-12deg);box-shadow:inset 0 0 9px rgba(45,16,31,.45)}
+.canSpoutTip::after{content:"";position:absolute;inset:7px;border-radius:50%;background:radial-gradient(circle,rgba(39,21,31,.8) 0 1px,transparent 1.5px);background-size:7px 7px;opacity:.75}
+.canWaterLevel{display:none; position:absolute;left:50px;top:76px;width:72px;height:20px;border-radius:50%;background:linear-gradient(180deg,rgba(160,212,235,.7),rgba(88,154,190,.5));mix-blend-mode:screen;opacity:.75;animation:waterSlosh 2.2s ease-in-out infinite}
+@keyframes waterSlosh{0%,100%{transform:rotate(-2deg) translateX(-2px)}50%{transform:rotate(3deg) translateX(3px)}}
+.canHint{position:absolute;left:72px;bottom:-4px;font-size:.73rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.75)}
+.dropletsLayer{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:20}
+.waterDrop{position:absolute;width:8px;height:13px;border-radius:60% 40% 65% 35% / 70% 45% 55% 30%;background:linear-gradient(180deg,#dff7ff,#6cc8ed 65%,#4aa0c6);box-shadow:0 0 12px rgba(126,215,255,.62);animation:dropFall .9s linear forwards}
+@keyframes dropFall{0%{transform:translateY(0) scale(.7);opacity:0}12%{opacity:1}100%{transform:translateY(220px) scale(1.05);opacity:0}}
+.spotlight{position:absolute;width:320px;height:320px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(255,223,239,.12),rgba(255,182,217,.04) 42%,transparent 70%);filter:blur(8px);mix-blend-mode:screen;opacity:.7;transform:translate(-50%,-50%);transition:opacity .3s ease}
+.controlsBar{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:16px;z-index:40}
+.hintKey{font-size:.82rem;color:rgba(255,255,255,.52)}
+.finishOverlay{position:absolute;inset:0;z-index:60;display:grid;place-items:center;background:rgba(8,3,13,.48);backdrop-filter:blur(8px);animation:fadeIn .4s ease both}
+.finishCard{width:min(420px,calc(100vw - 34px));padding:30px;border-radius:var(--radius2);background:linear-gradient(155deg,rgba(255,255,255,.16),rgba(255,255,255,.07));border:1px solid rgba(255,255,255,.19);box-shadow:var(--shadow3),inset 0 1px 0 rgba(255,255,255,.2);text-align:center}
+.finishTitle{font-family:Georgia,"Times New Roman",serif;font-size:1.9rem;margin-bottom:8px}
+.finishText{color:rgba(255,255,255,.7);margin-bottom:20px}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* PHOTO GARDEN */
+.photoProgress{display:flex;align-items:center;gap:6px;color:rgba(255,255,255,.62)}
+.photoProgress strong{color:#fff}
+.galleryStage{min-height:calc(100vh - 73px);padding:54px 22px 96px;position:relative;overflow:hidden}
+.sectionTitle{font-family:Georgia,"Times New Roman",serif;text-align:center;font-size:clamp(1.75rem,3.5vw,3rem);margin:0 0 8px;letter-spacing:-.025em}
+.sectionSubtitle{text-align:center;color:rgba(255,255,255,.62);margin:0 auto 26px}
+.photoGarden{position:relative;width:min(900px,95vw);height:min(710px,72vh);min-height:560px;margin:0 auto;filter:drop-shadow(0 28px 60px rgba(0,0,0,.35))}
+.photoGarden::before{content:"";position:absolute;left:50%;bottom:20px;width:270px;height:310px;transform:translateX(-50%);clip-path:polygon(47% 0,53% 0,58% 72%,80% 100%,20% 100%,42% 72%);background:linear-gradient(90deg,#213827,#66815d 48%,#243c2b);opacity:.85}
+.photoGarden::after{content:"";position:absolute;left:50%;bottom:0;width:330px;height:180px;transform:translateX(-50%);border-radius:50% 50% 26% 26%;background:linear-gradient(150deg,#4d3147,#2b1a29);box-shadow:0 30px 45px rgba(0,0,0,.42),inset 0 8px 16px rgba(255,255,255,.05)}
+.photoPeony{z-index:3;filter:saturate(1.04) brightness(1)}
+.photoPeony::before{transition:transform .28s var(--ease)}
+.photoPeony:hover::before{transform:scale(1.05)}
+.photoPeony:focus-visible{outline:none;filter:drop-shadow(0 0 0 5px var(--focus)) drop-shadow(0 0 20px rgba(255,183,220,.4))}
+.bottomRow{display:flex;justify-content:center;margin-top:18px;position:relative;z-index:5}
+.petalDrift{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.petalDrift span{position:absolute;top:-10%;width:16px;height:11px;border-radius:80% 20% 70% 30%;background:linear-gradient(135deg,#f9cfe0,#d97ba4);opacity:.65;animation:petalFall 9s linear infinite}
+.petalDrift span:nth-child(1){left:8%;animation-delay:0s}.petalDrift span:nth-child(2){left:21%;animation-delay:1.7s}.petalDrift span:nth-child(3){left:34%;animation-delay:4.2s}.petalDrift span:nth-child(4){left:49%;animation-delay:2.3s}.petalDrift span:nth-child(5){left:63%;animation-delay:5.1s}.petalDrift span:nth-child(6){left:77%;animation-delay:.9s}.petalDrift span:nth-child(7){left:88%;animation-delay:3.4s}.petalDrift span:nth-child(8){left:56%;animation-delay:6.3s}
+@keyframes petalFall{0%{transform:translate3d(0,-10vh,0) rotate(0deg);opacity:0}12%{opacity:.7}100%{transform:translate3d(60px,115vh,0) rotate(420deg);opacity:0}}
+.ribbonParticlesHint{position:fixed;left:50%;bottom:26px;transform:translateX(-50%);padding:10px 15px;border-radius:999px;background:rgba(33,13,42,.85);border:1px solid rgba(255,255,255,.13);backdrop-filter:blur(12px);z-index:30;font-size:.84rem}
+.ribbonClickZone{position:absolute;left:50%;bottom:70px;width:250px;height:110px;transform:translateX(-50%);cursor:pointer;z-index:8}
+.ribbonClickZone:focus-visible{outline:2px solid var(--pink2);outline-offset:6px;border-radius:20px}
+.heartParticle{position:fixed;z-index:1000;pointer-events:none;font-size:18px;animation:heartFloat 1.6s var(--ease) forwards}
+@keyframes heartFloat{0%{transform:translate(-50%,-50%) scale(.5);opacity:0}15%{opacity:1}100%{transform:translate(-50%,-180px) rotate(20deg) scale(1.2);opacity:0}}
+
+/* MODAL */
+.overlayRoot{position:fixed;inset:0;z-index:500;display:grid;place-items:center;padding:18px}
+.overlayBackdrop{position:absolute;inset:0;background:rgba(6,2,10,.76);backdrop-filter:blur(18px);animation:fadeIn .25s ease both}
+.overlayCard{position:relative;width:min(560px,94vw);max-height:92vh;overflow:auto;padding:22px;border-radius:32px;background:linear-gradient(160deg,rgba(255,253,251,.98),rgba(247,235,230,.96));color:var(--ink);box-shadow:0 36px 100px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.55);animation:cardIn .38s var(--ease) both}
+@keyframes cardIn{from{opacity:0;transform:translateY(24px) scale(.94) rotate(-1deg)}to{opacity:1;transform:none}}
+.overlayClose{position:absolute;right:16px;top:14px;width:38px;height:38px;border-radius:50%;border:0;background:rgba(62,32,51,.08);color:#4b2b3e;cursor:pointer;font-weight:800;z-index:4;transition:.2s ease}
+.overlayClose:hover{background:rgba(62,32,51,.14);transform:rotate(8deg)}
+.overlayTop{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-right:42px}
+.overlayTag{font-size:.75rem;text-transform:uppercase;letter-spacing:.12em;color:#9b5579;font-weight:850}
+.overlayPhotoWrap{position:relative;padding:10px 10px 26px;background:#fff;border-radius:10px;box-shadow:0 14px 32px rgba(73,35,53,.18);transform:rotate(-.8deg);overflow:hidden}
+.overlayPhoto{width:100%;height:min(54vh,430px);object-fit:cover;border-radius:7px;cursor:zoom-in;transition:transform .5s var(--ease),filter .35s ease;transform-origin:center center;background:linear-gradient(135deg,#f0a7c9,#a05b8c)}
+.overlayPhoto.zoomed{transform:scale(1.85);cursor:zoom-out}
+.overlayPhotoWrap:has(.overlayPhoto.zoomed){overflow:auto}
+.overlayZoomHint{position:absolute;right:18px;bottom:35px;z-index:3;border:0;border-radius:999px;padding:8px 11px;background:rgba(34,18,28,.7);color:#fff;font-size:.72rem;backdrop-filter:blur(8px);pointer-events:none}
+.overlayMemory{padding:18px 4px 4px;text-align:center}
+.revealBtn{background:linear-gradient(135deg,#f4c8d9,#e78fb6);color:#3a1b2d;box-shadow:0 12px 26px rgba(190,94,140,.2)}
+.memoryText{margin-top:18px;padding:20px;border-radius:18px;background:linear-gradient(145deg,rgba(255,255,255,.74),rgba(237,218,224,.62));border:1px solid rgba(95,45,69,.09);font-family:Georgia,"Times New Roman",serif;font-size:1.1rem;line-height:1.7;color:#4a2e3d;animation:memoryIn .55s var(--ease) both}
+@keyframes memoryIn{from{opacity:0;transform:translateY(14px);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+.overlayCard.memory-visible .overlayPhoto{filter:blur(2px) brightness(.84)}
+
+/* LETTER */
+.letterStage{min-height:100vh;padding:70px 22px 120px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden}
+.letterStage::before{content:"";position:absolute;width:min(900px,110vw);height:min(900px,110vw);border-radius:50%;background:radial-gradient(circle,rgba(239,177,204,.16),transparent 66%);filter:blur(10px)}
+.letterHeader,.letterPrompt,.typewriterWrap{position:relative;z-index:2}
+.letterHeader h2{font-family:Georgia,"Times New Roman",serif;font-size:clamp(2rem,4vw,3.8rem);margin:0 0 8px}
+.letterHeader p{margin:0;color:rgba(255,255,255,.63)}
+.letterPrompt{margin:28px 0}
+.typewriterWrap{width:min(760px,94vw);min-height:300px;padding:42px clamp(24px,6vw,70px);border-radius:24px;background:
+  linear-gradient(rgba(255,252,248,.96),rgba(248,237,229,.97)),
+  repeating-linear-gradient(0deg,transparent 0 31px,rgba(120,75,90,.05) 32px);
+  color:#4a303f;box-shadow:0 35px 80px rgba(0,0,0,.4),inset 0 1px 0 #fff;transform:rotate(-.4deg);position:relative;overflow:hidden
+}
+.typewriterWrap::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(129,88,64,.04),transparent 12%,transparent 88%,rgba(129,88,64,.04));pointer-events:none}
+.typewriterWrap::after{content:"For you";position:absolute;right:28px;top:22px;font-family:"Brush Script MT",cursive;font-size:1.4rem;color:#b46e8c;transform:rotate(5deg)}
+.typewriter{font-family:Georgia,"Times New Roman",serif;font-size:clamp(1.05rem,2vw,1.25rem);line-height:1.85;white-space:pre-wrap;text-align:left;min-height:170px}
+.typewriter::after{content:"";display:inline-block;width:2px;height:1.05em;background:#765266;margin-left:4px;vertical-align:-.15em;animation:caret .8s steps(1) infinite}
+@keyframes caret{50%{opacity:0}}
+.unlockLastLine{margin-top:24px;font-family:Georgia,"Times New Roman",serif;font-style:italic;color:#9a5b78;animation:memoryIn .8s ease both}
+.confettiStage{position:fixed;inset:0;pointer-events:none;z-index:200}
+.confettiCanvas{position:absolute;inset:0;overflow:hidden}
+.confettiPiece{position:absolute;top:-30px;width:12px;height:18px;border-radius:3px;background:var(--piece-color,#f4abc8);animation:confettiFall var(--fall,3.5s) linear forwards}
+.confettiPiece.petal{border-radius:70% 30% 70% 30%;width:16px;height:11px}
+.confettiPiece.heart{width:auto;height:auto;background:none;font-size:18px}
+@keyframes confettiFall{to{transform:translate3d(var(--drift,0),110vh,0) rotate(var(--spin,540deg));opacity:.05}}
+.confettiControls{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);z-index:220}
+
+/* FINAL */
+.finalScene{min-height:100vh;padding:72px 22px 90px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.finalGlow{position:absolute;inset:8% 14%;border-radius:50%;background:radial-gradient(circle,rgba(255,211,231,.2),rgba(238,155,191,.08) 34%,transparent 70%);filter:blur(20px);animation:finalPulse 4s ease-in-out infinite}
+@keyframes finalPulse{0%,100%{transform:scale(.92);opacity:.7}50%{transform:scale(1.07);opacity:1}}
+.finalTitleBlock{text-align:center;position:relative;z-index:2;margin-bottom:28px}
+.finalTitle{font-family:Georgia,"Times New Roman",serif;font-size:clamp(2.5rem,6vw,5.5rem);line-height:1;margin:0 0 12px;letter-spacing:-.05em;text-shadow:0 22px 65px rgba(242,166,201,.2)}
+.finalTitle span{display:inline-block;background:linear-gradient(135deg,#fff3f8,#efb2cc 50%,#d894b2);-webkit-background-clip:text;background-clip:text;color:transparent;animation:nameGlow 2.8s ease-in-out infinite}
+@keyframes nameGlow{0%,100%{filter:drop-shadow(0 0 0 rgba(255,197,224,0))}50%{filter:drop-shadow(0 0 18px rgba(255,197,224,.5))}}
+.finalSubtitle{margin:0;color:rgba(255,255,255,.67);font-size:1.06rem}
+.finalCard{width:min(760px,94vw);padding:28px;border-radius:30px;background:linear-gradient(155deg,rgba(255,255,255,.13),rgba(255,255,255,.055));border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(18px);box-shadow:var(--shadow3);position:relative;z-index:2}
+.finalCardTitle{text-align:center;text-transform:uppercase;letter-spacing:.14em;font-size:.76rem;color:rgba(255,255,255,.52);font-weight:850}
+.surpriseBody{text-align:center;padding:20px 0 0}
+.candlesRow{display:flex;justify-content:center;align-items:flex-end;gap:26px;margin:16px 0 26px}
+.candle{position:relative;width:34px;height:120px;cursor:pointer;transition:.25s var(--ease);filter:drop-shadow(0 12px 12px rgba(0,0,0,.25))}
+.candle:hover{transform:translateY(-4px)}
+.wax{position:absolute;left:4px;bottom:10px;width:26px;height:88px;border-radius:9px 9px 6px 6px;background:repeating-linear-gradient(90deg,#f7c0d8 0 7px,#d77fa9 7px 14px);box-shadow:inset 5px 0 7px rgba(255,255,255,.22)}
+.candleBase{position:absolute;left:0;bottom:0;width:34px;height:15px;border-radius:50%;background:#9f557b}
+.flame{position:absolute;left:50%;top:0;width:18px;height:28px;transform:translateX(-50%);border-radius:50% 50% 46% 54% / 66% 66% 34% 34%;background:radial-gradient(circle at 50% 70%,#fff8be 0 20%,#f7b948 40%,#dc6a3c 65%,transparent 67%);filter:drop-shadow(0 0 12px rgba(255,184,92,.9));animation:flame 1s ease-in-out infinite alternate;transform-origin:50% 100%}
+@keyframes flame{from{transform:translateX(-50%) rotate(-3deg) scale(.95)}to{transform:translateX(-50%) rotate(4deg) scale(1.06)}}
+.candle.out .flame{opacity:0;transform:translateX(-50%) scale(.2)}
+.candle.out::before{content:"";position:absolute;left:50%;top:0;width:8px;height:34px;border-radius:50%;background:rgba(210,210,210,.22);filter:blur(3px);animation:smoke 1.3s ease-out forwards}
+@keyframes smoke{to{transform:translate(-12px,-36px) scale(1.8);opacity:0}}
+.finalText{color:rgba(255,255,255,.68);line-height:1.6;max-width:540px;margin:0 auto 18px}
+.collage{margin-top:28px;padding-top:24px;border-top:1px solid rgba(255,255,255,.12);animation:memoryIn .65s var(--ease) both}
+.collageHeader{text-align:center;font-family:Georgia,"Times New Roman",serif;font-size:1.7rem;margin-bottom:18px}
+.collageGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.collageGrid img,.collageItem{aspect-ratio:1/1;object-fit:cover;border-radius:12px;background:linear-gradient(135deg,#f2b4ce,#8e5a88);box-shadow:0 8px 20px rgba(0,0,0,.2);transition:.25s var(--ease)}
+.collageGrid img:hover,.collageItem:hover{transform:translateY(-4px) rotate(-1deg)}
+.collageFooter{text-align:center;margin-top:20px}
+
+/* ACCESSIBILITY / REDUCED MOTION */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.001ms!important}
+}
+
+/* RESPONSIVE */
+@media (max-width:900px){
+  .wateringCan{left:calc(50% + 205px);width:160px;transform:translate(-50%,-50%) scale(.9) rotate(var(--can-rotate,0deg))}
+  .bouquet{transform:scale(.88)}
+  .photoGarden{height:650px}
+  .collageGrid{grid-template-columns:repeat(3,1fr)}
+}
+
+@media (max-width:700px){
+  .topBar{padding:14px 16px;gap:14px}
+  .brand span:last-child{display:none}
+  .progressWrap{min-width:58vw}
+  .stage{padding-top:86px}
+  .waterPrompt{top:18px}
+  .bouquetWrap{height:620px;width:100vw;overflow:visible}
+  .bouquet{transform:scale(.72);animation:none}
+  .wateringCan{left:72%;top:70%;transform:translate(-50%,-50%) scale(.78) rotate(var(--can-rotate,0deg))}
+  .controlsBar{bottom:16px;gap:10px;flex-direction:column}
+  .hintKey{font-size:.73rem}
+  .galleryStage{padding:38px 12px 92px}
+  .photoGarden{height:610px;min-height:610px;width:100%}
+  .photoPeony{--size:88px}
+  .overlayCard{padding:16px;border-radius:24px}
+  .overlayPhoto{height:min(48vh,380px)}
+  .typewriterWrap{padding:34px 24px;min-height:330px}
+  .finalCard{padding:20px}
+  .collageGrid{grid-template-columns:repeat(3,1fr)}
+}
+
+@media (max-width:520px){
+  .title{margin-top:150px;font-size:2.55rem}
+  .center::before{top:16%;width:150px;height:150px}
+  .ctaRow{width:100%}.ctaRow .btn{flex:1;min-width:140px}
+  .progressLabel{display:none}.progressWrap{grid-template-areas:"value value" "bar bar";min-width:52vw}
+  .progressValue{text-align:right}
+  .bouquetWrap{height:580px;margin-top:8px}
+  .bouquet{transform:scale(.62)}
+  .wateringCan{left:68%;top:73%;transform:translate(-50%,-50%) scale(.68) rotate(var(--can-rotate,0deg))}
+  .finishCard{padding:24px}
+  .sectionTitle{font-size:1.9rem}
+  .photoGarden{height:560px;min-height:560px}
+  .photoPeony{--size:76px}
+  .overlayPhotoWrap{padding:7px 7px 22px}
+  .overlayPhoto{height:43vh}
+  .memoryText{font-size:1rem}
+  .letterStage{padding:44px 14px 110px}
+  .typewriterWrap{padding:30px 20px;min-height:350px}
+  .confettiControls{bottom:18px}
+  .finalScene{padding:46px 14px 78px}
+  .candlesRow{gap:18px}
+  .collageGrid{grid-template-columns:repeat(2,1fr)}
+}
+
+@media (max-height:700px) and (min-width:701px){
+  .bouquetWrap{height:560px}.bouquet{transform:scale(.78)}.waterPrompt{top:10px}.wateringCan{top:56%;transform:translate(-50%,-50%) scale(.82) rotate(var(--can-rotate,0deg))}
+}
+
+/* ===== Interaction hotfix: gallery footer and ribbon hint ===== */
+.bottomRow{
+  position:relative;
+  z-index:40;
+  padding-bottom:88px;
+}
+
+#continueToLetterBtn{
+  position:relative;
+  z-index:41;
+  touch-action:manipulation;
+}
+
+.btn:disabled,
+.btn[aria-disabled="true"]{
+  opacity:.5;
+  cursor:not-allowed;
+  transform:none !important;
+  box-shadow:none !important;
+}
+
+.ribbonClickZone{
+  pointer-events:none;
+  z-index:6;
+}
+
+.ribbonParticlesHint{
+  cursor:pointer;
+  user-select:none;
+  -webkit-user-select:none;
+  touch-action:manipulation;
+  z-index:50;
+  transition:transform .18s var(--ease), background .18s var(--ease), box-shadow .18s var(--ease);
+}
+
+.ribbonParticlesHint:hover,
+.ribbonParticlesHint:focus-visible{
+  transform:translateX(-50%) translateY(-2px);
+  background:rgba(55,20,66,.94);
+  box-shadow:0 12px 30px rgba(0,0,0,.28);
+  outline:none;
+}
+
+@media (max-width:700px){
+  .bottomRow{padding-bottom:104px}
+  .ribbonParticlesHint{
+    bottom:max(16px, env(safe-area-inset-bottom));
+    width:max-content;
+    max-width:calc(100vw - 28px);
+    text-align:center;
+  }
+}
+
+/* =========================================================
+   V2 — FULLER BOUQUET + AUTOMATIC LETTER EXPERIENCE
+   ========================================================= */
+
+/* The base now shows only an elegant bow. */
+.ribbonWrap.ribbonOnly{
+  bottom:112px;
+  height:86px;
+  pointer-events:none;
+}
+.ribbonOnly .ribbon{
+  top:9px;
+  width:186px;
+  height:54px;
+  filter:drop-shadow(0 12px 14px rgba(0,0,0,.28));
+}
+.ribbonKnot{
+  position:absolute;
+  left:50%;
+  top:4px;
+  width:48px;
+  height:34px;
+  transform:translateX(-50%) rotate(-3deg);
+  border-radius:48% 52% 45% 55%;
+  background:
+    radial-gradient(circle at 32% 27%,rgba(255,255,255,.48),transparent 21%),
+    linear-gradient(135deg,#f6c3d7,#c66d98 62%,#9f4f78);
+  box-shadow:inset -8px -7px 11px rgba(83,29,58,.18),inset 7px 5px 10px rgba(255,255,255,.18);
+  z-index:4;
+}
+.ribbonOnly .ribbon::before,
+.ribbonOnly .ribbon::after{
+  content:"";
+  position:absolute;
+  top:3px;
+  width:78px;
+  height:45px;
+  border-radius:58% 42% 56% 44%;
+  background:linear-gradient(145deg,#efb5ce,#b85e89 68%,#914466);
+  box-shadow:inset 8px 5px 10px rgba(255,255,255,.19),inset -8px -7px 12px rgba(79,24,51,.2);
+}
+.ribbonOnly .ribbon::before{right:50%;transform:translateX(-12px) rotate(10deg)}
+.ribbonOnly .ribbon::after{left:50%;transform:translateX(12px) rotate(-10deg)}
+.ribbonOnly .ribbonTail{
+  top:31px;
+  left:51px;
+  width:45px;
+  height:68px;
+  border-radius:8px 8px 18px 5px;
+  background:linear-gradient(155deg,#da8eb0,#9f4d76);
+  clip-path:polygon(0 0,100% 0,86% 100%,50% 78%,15% 100%);
+  transform:rotate(13deg);
+}
+.ribbonOnly .ribbonTail.right{left:auto;right:51px;transform:rotate(-13deg)}
+
+/* More natural secondary blossoms tucked between the 12 photo flowers. */
+.fillerFlower,.gardenFillerFlower{
+  --bloom:.28;
+  position:absolute;
+  width:var(--size);
+  height:var(--size);
+  transform:translate(-50%,-50%) rotate(var(--rot)) scale(var(--bloom));
+  transform-origin:50% 58%;
+  border-radius:50%;
+  opacity:.46;
+  pointer-events:none;
+  transition:transform .9s var(--ease),opacity .8s ease,filter .8s ease;
+  background:
+    radial-gradient(circle at 50% 50%,#f7d697 0 5%,#caa35b 6% 10%,transparent 11%),
+    repeating-conic-gradient(from 8deg,#fce6ef 0 12deg,#eab0c7 12deg 25deg,#f7ccdD 25deg 38deg);
+  box-shadow:
+    inset 0 0 15px rgba(104,47,72,.2),
+    0 12px 23px rgba(0,0,0,.19),
+    0 0 15px rgba(255,194,220,.14);
+  filter:saturate(.68) brightness(.78);
+}
+.fillerFlower::before,.gardenFillerFlower::before{
+  content:"";
+  position:absolute;
+  inset:17%;
+  border-radius:50%;
+  background:repeating-conic-gradient(from 22deg,#fff1f6 0 15deg,#d98daf 15deg 29deg,#f5bfd4 29deg 43deg);
+  box-shadow:inset 0 0 10px rgba(90,37,63,.18);
+}
+.fillerFlower::after,.gardenFillerFlower::after{
+  content:"";
+  position:absolute;
+  left:50%;top:50%;
+  width:13%;height:13%;
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  background:#e7c477;
+  box-shadow:0 0 0 4px rgba(251,228,175,.28);
+}
+.fillerFlower.bloomed,.gardenFillerFlower{
+  --bloom:1;
+  opacity:.92;
+  filter:saturate(.95) brightness(1);
+  animation:fillerSway 4.8s calc(var(--delay) + .25s) ease-in-out infinite;
+}
+@keyframes fillerSway{
+  0%,100%{transform:translate(-50%,-50%) rotate(var(--rot)) scale(var(--bloom))}
+  50%{transform:translate(-50%,-53%) rotate(calc(var(--rot) + 2deg)) scale(var(--bloom))}
+}
+
+/* Richer bouquet foliage. */
+.peonies::before,.photoGarden::before{
+  filter:drop-shadow(0 20px 35px rgba(0,0,0,.28));
+}
+.bouquet::before,.bouquet::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:20%;
+  width:72%;
+  height:57%;
+  transform:translateX(-50%);
+  pointer-events:none;
+  z-index:0;
+  background:
+    radial-gradient(ellipse at 10% 40%,#648368 0 7%,transparent 8%),
+    radial-gradient(ellipse at 22% 68%,#395b45 0 8%,transparent 9%),
+    radial-gradient(ellipse at 86% 39%,#65846a 0 7%,transparent 8%),
+    radial-gradient(ellipse at 75% 70%,#355740 0 8%,transparent 9%),
+    radial-gradient(ellipse at 50% 86%,#55755d 0 8%,transparent 9%);
+  opacity:.95;
+}
+.bouquet::after{transform:translateX(-50%) scaleX(-1) rotate(7deg);opacity:.62}
+
+.allMemoriesMessage{
+  position:fixed;
+  left:50%;
+  bottom:max(24px,env(safe-area-inset-bottom));
+  z-index:160;
+  width:min(520px,calc(100vw - 28px));
+  transform:translateX(-50%);
+  padding:15px 22px;
+  border-radius:999px;
+  text-align:center;
+  color:#4b2739;
+  background:rgba(255,245,249,.94);
+  border:1px solid rgba(255,255,255,.76);
+  box-shadow:0 18px 50px rgba(0,0,0,.28);
+  backdrop-filter:blur(14px);
+  animation:memoryIn .55s var(--ease) both;
+}
+
+/* Full-screen envelope: the paper visibly rises from the envelope. */
+.letterStage{
+  gap:24px;
+  padding-bottom:max(110px,calc(88px + env(safe-area-inset-bottom)));
+}
+.grandEnvelope{
+  position:relative;
+  width:min(440px,86vw);
+  aspect-ratio:1.48/1;
+  margin:22px auto 6px;
+  border:0;
+  padding:0;
+  background:transparent;
+  cursor:pointer;
+  perspective:1200px;
+  overflow:visible;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+  filter:drop-shadow(0 30px 38px rgba(0,0,0,.34));
+  transition:transform .35s var(--ease),filter .35s ease;
+}
+.grandEnvelope:hover{transform:translateY(-5px) scale(1.012);filter:drop-shadow(0 38px 48px rgba(0,0,0,.39))}
+.grandEnvelope:focus-visible{outline:3px solid rgba(255,205,229,.72);outline-offset:12px;border-radius:24px}
+.grandEnvelopeShadow{
+  position:absolute;
+  left:10%;right:10%;bottom:-8%;height:20%;
+  border-radius:50%;
+  background:rgba(0,0,0,.3);
+  filter:blur(18px);
+  transform:scaleX(.9);
+}
+.grandEnvelopeBack,.grandEnvelopeFront,.grandEnvelopeFlap,.grandLetterPaper{
+  position:absolute;
+  left:0;right:0;
+  border-radius:18px;
+}
+.grandEnvelopeBack{
+  inset:8% 0 0;
+  background:linear-gradient(145deg,#edd0d7,#c88da4 62%,#a96883);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.55);
+}
+.grandLetterPaper{
+  left:7%;right:7%;top:12%;height:76%;
+  display:flex;align-items:flex-start;justify-content:center;
+  padding-top:10%;
+  color:#9e617a;
+  background:
+    linear-gradient(90deg,rgba(121,72,84,.04),transparent 11%,transparent 89%,rgba(121,72,84,.04)),
+    linear-gradient(#fffdf9,#f8eee8);
+  border:1px solid rgba(121,72,84,.1);
+  border-radius:12px 12px 7px 7px;
+  box-shadow:0 6px 18px rgba(66,30,45,.16);
+  transform:translateY(52%) scale(.92);
+  opacity:0;
+  visibility:hidden;
+  transition:transform 1s var(--ease),box-shadow .8s ease,opacity .28s ease,visibility 0s linear .9s;
+  z-index:2;
+}
+.paperHeading{font-family:"Brush Script MT",cursive;font-size:clamp(1.7rem,6vw,2.6rem);transform:rotate(-3deg)}
+.grandEnvelopeFront{
+  inset:8% 0 0;
+  z-index:4;
+  overflow:hidden;
+  background:
+    linear-gradient(32deg,transparent 49.6%,rgba(255,255,255,.28) 50%,transparent 50.5%),
+    linear-gradient(148deg,transparent 49.6%,rgba(255,255,255,.2) 50%,transparent 50.5%),
+    linear-gradient(145deg,#eab7c9,#bd7694 72%,#965570);
+  clip-path:polygon(0 0,50% 48%,100% 0,100% 100%,0 100%);
+  box-shadow:inset 0 -10px 22px rgba(78,25,51,.14);
+}
+.grandEnvelopeFlap{
+  left:0;right:0;top:8%;height:55%;
+  z-index:6;
+  transform-origin:50% 0;
+  transform:rotateX(0deg);
+  backface-visibility:hidden;
+  background:linear-gradient(160deg,#f1c7d5,#bd7b97);
+  clip-path:polygon(0 0,100% 0,50% 100%);
+  transition:transform .9s var(--ease),filter .5s ease;
+  filter:drop-shadow(0 5px 5px rgba(71,27,45,.16));
+}
+.waxSeal{
+  position:absolute;
+  left:50%;top:45%;
+  z-index:8;
+  width:52px;height:52px;
+  transform:translate(-50%,-50%);
+  display:grid;place-items:center;
+  border-radius:50%;
+  color:#ffeaf2;
+  font-size:1.25rem;
+  background:radial-gradient(circle at 35% 28%,#dc83a6,#9c456b 68%,#793252);
+  box-shadow:0 8px 13px rgba(70,24,45,.26),inset 0 2px 4px rgba(255,255,255,.28);
+  transition:opacity .3s ease,transform .45s var(--ease);
+}
+.grandEnvelopeHint{
+  position:absolute;
+  left:50%;bottom:-42px;
+  transform:translateX(-50%);
+  white-space:nowrap;
+  font-weight:750;
+  letter-spacing:.04em;
+  color:rgba(255,255,255,.78);
+  animation:hintPulse 1.8s ease-in-out infinite;
+}
+@keyframes hintPulse{0%,100%{opacity:.62;transform:translateX(-50%) translateY(0)}50%{opacity:1;transform:translateX(-50%) translateY(-3px)}}
+.grandEnvelope.opening .grandEnvelopeFlap,
+.grandEnvelope.opened .grandEnvelopeFlap{transform:rotateX(178deg);z-index:1;filter:brightness(.9)}
+.grandEnvelope.opening .waxSeal,
+.grandEnvelope.opened .waxSeal{opacity:0;transform:translate(-50%,-50%) scale(.25) rotate(-20deg)}
+.grandEnvelope.opening .grandLetterPaper,
+.grandEnvelope.opened .grandLetterPaper{
+  transform:translateY(-49%) scale(1);
+  opacity:1;
+  visibility:visible;
+  transition-delay:.22s,0s,.22s,0s;
+  box-shadow:0 22px 36px rgba(58,26,41,.24)
+}
+.grandEnvelope.opening .grandEnvelopeHint,
+.grandEnvelope.opened .grandEnvelopeHint{opacity:0;animation:none}
+.grandEnvelope.opened{pointer-events:none;margin-bottom:112px}
+
+.letterPaper{
+  animation:letterReveal .85s var(--ease) both;
+  margin-top:-4px;
+}
+@keyframes letterReveal{from{opacity:0;transform:translateY(26px) rotate(-.8deg) scale(.96)}to{opacity:1;transform:rotate(-.4deg) scale(1)}}
+
+/* Remove legacy controls from this version even if an older HTML copy is used. */
+.envelopeSeal,.envelopeHint,.ribbonParticlesHint,.ribbonClickZone,.bottomRow{display:none!important}
+
+@media (max-width:700px){
+  .bouquetWrap{width:min(100%,520px)}
+  .peonies{transform:translateX(-50%) scale(.9);transform-origin:50% 85%}
+  .ribbonWrap.ribbonOnly{bottom:105px;transform:translateX(-50%) scale(.86)}
+  .grandEnvelope{width:min(390px,91vw);margin-top:10px}
+  .grandEnvelopeHint{bottom:-35px;font-size:.9rem}
+  .grandEnvelope.opened{margin-bottom:82px}
+  .letterPaper{width:calc(100vw - 24px);padding:34px 22px}
+  .allMemoriesMessage{font-size:.92rem;padding:13px 17px}
+}
+
+@media (max-width:430px){
+  .photoGarden{transform:scale(.93);transform-origin:50% 30%}
+  .grandEnvelope{width:92vw}
+  .waxSeal{width:46px;height:46px}
+  .letterHeader h2{font-size:2.15rem}
+  .letterStage{padding-left:10px;padding-right:10px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .grandEnvelopeFlap,.grandLetterPaper,.waxSeal{transition-duration:.01ms!important}
+  .fillerFlower,.gardenFillerFlower{animation:none!important}
+}
+
+
+/* =========================================================
+   V3 — TORT ROZ CU 17 LUMÂNĂRI
+   ========================================================= */
+.cakeScene{padding-inline:12px}
+.cakeCard{width:min(920px,96vw);padding:26px 18px 34px;border-radius:34px;background:linear-gradient(155deg,rgba(255,255,255,.14),rgba(255,255,255,.055));border:1px solid rgba(255,255,255,.17);backdrop-filter:blur(18px);box-shadow:0 30px 90px rgba(0,0,0,.42);position:relative;z-index:2;text-align:center}
+.cakeTopMessage{font-family:Georgia,"Times New Roman",serif;font-size:clamp(1.2rem,3vw,1.7rem);color:#ffeaf3;margin-bottom:8px}
+.birthdayCake{position:relative;width:min(720px,92vw);height:410px;margin:0 auto 4px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;filter:drop-shadow(0 26px 28px rgba(0,0,0,.3))}
+.cakeLayer{position:absolute;left:50%;transform:translateX(-50%);border:1px solid rgba(115,55,82,.13);box-shadow:inset 0 5px 12px rgba(255,255,255,.35),inset 0 -14px 20px rgba(154,72,110,.11)}
+.cakeLayer-top{bottom:105px;width:min(570px,82vw);height:125px;border-radius:34px 34px 24px 24px;background:linear-gradient(180deg,#ffe7f1 0%,#f8bfd7 42%,#eda1c3 100%);z-index:3}
+.cakeLayer-bottom{bottom:36px;width:min(650px,90vw);height:120px;border-radius:30px 30px 24px 24px;background:linear-gradient(180deg,#fbd4e5 0%,#f2aac9 56%,#db83ad 100%);z-index:2}
+.cakeTop{position:absolute;bottom:218px;left:50%;transform:translateX(-50%);width:min(570px,82vw);height:55px;border-radius:50%;background:radial-gradient(ellipse at 50% 40%,#fff8fb 0%,#ffdce9 52%,#eba4c3 100%);border:1px solid rgba(126,63,92,.12);z-index:5;box-shadow:0 8px 14px rgba(118,54,83,.18),inset 0 3px 7px rgba(255,255,255,.8)}
+.cakePlate{position:absolute;bottom:15px;width:min(720px,96vw);height:48px;border-radius:50%;background:linear-gradient(180deg,#fffafc,#e7ccd8);box-shadow:0 12px 22px rgba(0,0,0,.25);z-index:1}
+.drip{position:absolute;top:0;width:32px;background:#ffe7f1;border-radius:0 0 18px 18px}.drip-1{height:48px;left:16%}.drip-2{height:66px;left:48%}.drip-3{height:42px;right:17%}
+.seventeenCandles{position:absolute;left:50%;bottom:236px;transform:translateX(-50%);width:min(530px,78vw);height:118px;margin:0;display:grid;grid-template-columns:repeat(9,1fr);grid-template-rows:repeat(2,1fr);gap:4px 8px;align-items:end;z-index:10;pointer-events:none}
+.seventeenCandles .candle{pointer-events:auto;width:26px;height:92px;margin:auto;background:none;border:0;padding:0;appearance:none}
+.seventeenCandles .candle:nth-child(n+10){transform:translateX(50%)}
+.seventeenCandles .candle:hover{transform:translateY(-4px)}
+.seventeenCandles .candle:nth-child(n+10):hover{transform:translateX(50%) translateY(-4px)}
+.seventeenCandles .wax{left:4px;width:18px;height:60px;border-radius:7px;background:repeating-linear-gradient(90deg,#fff0f6 0 5px,#e895ba 5px 10px)}
+.seventeenCandles .candleBase{left:1px;width:24px;height:10px}
+.seventeenCandles .flame{width:14px;height:23px;top:3px}
+.cakeFlower{position:absolute;width:36px;height:36px;border-radius:50%;background:radial-gradient(circle,#fff5fa 0 15%,#f4a7c8 17% 38%,#d779a5 40% 57%,transparent 59%);filter:drop-shadow(0 4px 4px rgba(104,42,69,.16));z-index:7}.cakeFlower-1{left:9%;top:4px}.cakeFlower-2{right:10%;top:10px;transform:scale(.8)}.cakeFlower-3{left:47%;top:19px;transform:scale(.7)}
+.cakePearl{position:absolute;width:10px;height:10px;border-radius:50%;background:#fff8fb;box-shadow:0 2px 5px rgba(102,41,67,.22);z-index:8}.pearl-1{left:28%;top:13px}.pearl-2{right:31%;top:27px}.pearl-3{left:63%;top:7px}
+.cakeInstruction{margin:4px auto 0;color:rgba(255,255,255,.62);font-size:.93rem}
+.cakeCompleteMessage{margin:18px auto 0;padding:14px 18px;width:min(520px,92%);border-radius:18px;background:rgba(255,225,239,.14);border:1px solid rgba(255,221,237,.21);font-family:Georgia,"Times New Roman",serif;color:#ffeaf4;animation:memoryIn .6s var(--ease) both}
+.grandEnvelope{touch-action:manipulation}
+
+@media(max-width:700px){
+  .finalScene.cakeScene{padding:34px 8px 52px;justify-content:flex-start}
+  .cakeScene .finalTitleBlock{margin-bottom:12px}
+  .cakeScene .finalTitle{font-size:clamp(2rem,9vw,3rem)}
+  .cakeCard{padding:18px 6px 24px;border-radius:26px}
+  .birthdayCake{height:360px;width:98vw;transform:scale(.92);transform-origin:center bottom;margin-top:-12px}
+  .seventeenCandles{width:78vw;gap:3px 3px;bottom:228px}
+  .seventeenCandles .candle{width:22px;height:88px}
+  .seventeenCandles .wax{left:4px;width:15px;height:56px}
+  .seventeenCandles .candleBase{width:21px}
+  .cakeLayer-top,.cakeTop{width:82vw}.cakeLayer-bottom{width:91vw}.cakePlate{width:96vw}
+}
+@media(max-width:420px){
+  .birthdayCake{height:330px;transform:scale(.84);margin-top:-28px;margin-bottom:-18px}
+  .seventeenCandles{width:82vw;gap:2px 1px}
+  .seventeenCandles .candle{width:20px}
+  .cakeInstruction{padding:0 12px}
+}
+
+
+/* =========================================================
+   FINAL RESTART CONTROL
+   ========================================================= */
+.restartExperienceBtn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  margin:28px auto 2px;
+  min-width:min(260px,82vw);
+  animation:restartButtonIn .7s var(--ease) both;
+}
+@keyframes restartButtonIn{
+  from{opacity:0;transform:translateY(16px) scale(.96)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+body.experienceRestarting #app{
+  opacity:0;
+  transform:scale(.992);
+}
+#app{transition:opacity .36s ease,transform .36s ease}
+
+@media (max-width:430px){
+  .restartExperienceBtn{width:100%;min-width:0;margin-top:24px}
+}
+
+/* =========================================================
+   RESPONSIVE HARDENING — mobile, tablet, small laptops
+   Keeps generated flowers, candles and controls aligned.
+   ========================================================= */
+
+html{
+  -webkit-text-size-adjust:100%;
+  text-size-adjust:100%;
+}
+
+body{
+  width:100%;
+  min-width:0;
+  overflow-x:hidden;
+}
+
+.step.active{
+  width:100%;
+  min-width:0;
+}
+
+img, audio{
+  max-width:100%;
+}
+
+.btn{
+  max-width:100%;
+  min-height:44px;
+  white-space:normal;
+  line-height:1.2;
+  touch-action:manipulation;
+}
+
+/* Never let a mobile-only transform shift the flower layer sideways. */
+.peonies{
+  left:30px;
+  right:30px;
+  transform:none !important;
+  transform-origin:50% 85%;
+}
+
+.photoGarden{
+  max-width:900px;
+  transform-origin:50% 10%;
+}
+
+/* The JS gives every flower an inline --size. Scale the complete garden
+   instead of trying to overwrite that inline custom property. */
+@media (max-width:900px){
+  .bouquetWrap{
+    width:100%;
+    max-width:720px;
+  }
+
+  .bouquet{
+    transform:scale(.86);
+    animation:none;
+  }
+
+  .photoGarden{
+    transform:scale(.90);
+    height:650px;
+    min-height:650px;
+  }
+}
+
+@media (max-width:700px){
+  .topBar{
+    flex-wrap:wrap;
+    align-items:flex-start;
+  }
+
+  .progressWrap{
+    flex:1 1 180px;
+    min-width:0;
+    max-width:100%;
+  }
+
+  .stage{
+    min-height:calc(100svh - 70px);
+    padding:92px 8px 112px;
+    overflow:visible;
+  }
+
+  .waterPrompt{
+    width:calc(100% - 24px);
+  }
+
+  .bouquetWrap{
+    width:100%;
+    height:590px;
+    margin-inline:auto;
+  }
+
+  .bouquet{
+    transform:scale(.72);
+    transform-origin:50% 78%;
+  }
+
+  .controlsBar{
+    position:absolute;
+    left:12px;
+    right:12px;
+    bottom:14px;
+    transform:none;
+    width:auto;
+  }
+
+  .controlsBar .btn{
+    width:min(320px,100%);
+  }
+
+  .galleryStage{
+    min-height:calc(100svh - 66px);
+    padding:34px 8px 88px;
+    overflow-x:hidden;
+    overflow-y:visible;
+  }
+
+  .sectionTitle,
+  .sectionSubtitle{
+    padding-inline:10px;
+  }
+
+  .photoGarden{
+    width:900px;
+    max-width:none;
+    height:610px;
+    min-height:610px;
+    left:50%;
+    margin-left:-450px;
+    transform:scale(.72);
+  }
+
+  .overlayRoot{
+    padding:10px;
+    overflow-y:auto;
+  }
+
+  .overlayCard{
+    width:min(620px,calc(100vw - 20px));
+    max-height:calc(100svh - 20px);
+    overflow-y:auto;
+  }
+
+  .overlayPhoto{
+    height:min(44svh,360px);
+  }
+
+  .letterStage,
+  .finalScene{
+    min-height:100svh;
+    height:auto;
+    overflow-y:auto;
+  }
+
+  .letterPaper,
+  .typewriterWrap,
+  .cakeCard{
+    max-width:calc(100vw - 20px);
+  }
+
+  .birthdayCake{
+    width:720px;
+    max-width:none;
+    left:50%;
+    margin-left:-360px;
+    transform:scale(.76);
+    transform-origin:50% 100%;
+  }
+
+  .cakeCard{
+    overflow:hidden;
+  }
+
+  .seventeenCandles{
+    width:530px;
+    max-width:none;
+    grid-template-columns:repeat(9,1fr);
+    gap:4px 5px;
+  }
+
+  .seventeenCandles .candle:nth-child(n+10){
+    transform:translateX(50%);
+  }
+
+  .cakeInstruction,
+  .cakeCompleteMessage{
+    position:relative;
+    z-index:20;
+  }
+}
+
+@media (max-width:560px){
+  .title{
+    margin-top:118px;
+    font-size:clamp(2rem,10vw,2.65rem);
+  }
+
+  .subtitle{
+    width:100%;
+  }
+
+  .ctaRow{
+    width:100%;
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .ctaRow .btn{
+    width:100%;
+    min-width:0;
+  }
+
+  .bouquetWrap{
+    height:540px;
+  }
+
+  .bouquet{
+    transform:scale(.62);
+    transform-origin:50% 73%;
+  }
+
+  .wateringCan{
+    width:150px;
+    height:108px;
+  }
+
+  .photoGarden{
+    transform:scale(.61);
+    height:535px;
+    min-height:535px;
+  }
+
+  .allMemoriesMessage{
+    width:calc(100% - 20px);
+    margin-inline:auto;
+  }
+
+  .allMemoriesMessage .btn{
+    width:100%;
+  }
+
+  .birthdayCake{
+    transform:scale(.64);
+    margin-top:-42px;
+    margin-bottom:-60px;
+  }
+
+  .cakeCard{
+    padding-inline:8px;
+  }
+
+  .grandEnvelope{
+    max-width:calc(100vw - 24px);
+  }
+
+  .restartExperienceBtn{
+    width:100%;
+    min-width:0;
+  }
+}
+
+@media (max-width:430px){
+  .topBar{
+    padding:11px 12px;
+  }
+
+  .progressWrap{
+    flex-basis:150px;
+  }
+
+  .stage{
+    padding-top:96px;
+  }
+
+  .waterPromptTitle{
+    font-size:1.45rem;
+  }
+
+  .waterPromptText{
+    font-size:.84rem;
+  }
+
+  .bouquetWrap{
+    height:500px;
+  }
+
+  .bouquet{
+    transform:scale(.53);
+    transform-origin:50% 69%;
+  }
+
+  .wateringCan{
+    width:138px;
+    height:102px;
+  }
+
+  .photoGarden{
+    transform:scale(.52);
+    height:480px;
+    min-height:480px;
+  }
+
+  .sectionTitle{
+    font-size:clamp(1.55rem,8vw,1.95rem);
+  }
+
+  .overlayCard{
+    padding:12px;
+    border-radius:20px;
+  }
+
+  .overlayPhoto{
+    height:min(40svh,310px);
+  }
+
+  .memoryText{
+    font-size:.96rem;
+  }
+
+  .birthdayCake{
+    transform:scale(.54);
+    margin-top:-70px;
+    margin-bottom:-92px;
+  }
+
+  .cakeTopMessage{
+    font-size:1.12rem;
+  }
+
+  .cakeInstruction{
+    font-size:.86rem;
+  }
+
+  .letterPaper{
+    padding:28px 17px;
+  }
+}
+
+@media (max-width:360px){
+  .bouquet{
+    transform:scale(.47);
+  }
+
+  .bouquetWrap{
+    height:470px;
+  }
+
+  .photoGarden{
+    transform:scale(.45);
+    height:440px;
+    min-height:440px;
+  }
+
+  .birthdayCake{
+    transform:scale(.47);
+    margin-top:-86px;
+    margin-bottom:-112px;
+  }
+}
+
+/* Short landscape screens: allow scrolling instead of overlapping controls. */
+@media (orientation:landscape) and (max-height:560px){
+  .step.active,
+  .layout,
+  .stage,
+  .galleryStage,
+  .letterStage,
+  .finalScene{
+    min-height:100svh;
+    height:auto;
+    overflow-y:auto;
+  }
+
+  .stage{
+    padding-top:78px;
+    padding-bottom:90px;
+  }
+
+  .bouquetWrap{
+    height:470px;
+  }
+
+  .bouquet{
+    transform:scale(.58);
+  }
+
+  .photoGarden{
+    transform:scale(.62);
+    height:500px;
+    min-height:500px;
+  }
+
+  .birthdayCake{
+    transform:scale(.62);
+    margin-top:-40px;
+    margin-bottom:-55px;
+  }
+}
+
+/* =========================================================
+   FINAL MOBILE LAYOUT REFINEMENT
+   Keeps every experience screen centered and readable.
+   ========================================================= */
+
+/* The completion card must always be above flowers and safe-area controls. */
+.allMemoriesMessage:not(.hidden){
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  position:fixed;
+  left:50%;
+  right:auto;
+  bottom:max(16px,calc(env(safe-area-inset-bottom) + 10px));
+  z-index:999;
+  width:min(520px,calc(100vw - 24px));
+  max-height:min(44svh,320px);
+  overflow:auto;
+  transform:translateX(-50%);
+  padding:16px 18px;
+  border-radius:24px;
+  background:linear-gradient(145deg,rgba(255,250,252,.98),rgba(255,228,240,.97));
+  border:1px solid rgba(255,255,255,.95);
+  box-shadow:0 20px 55px rgba(23,8,19,.38),0 0 0 1px rgba(186,95,139,.13);
+  color:#51283d;
+  text-align:center;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:1rem;
+  line-height:1.4;
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+}
+.allMemoriesMessage p{margin:0;max-width:38ch}
+.allMemoriesMessage .btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:min(320px,100%);
+  min-height:48px;
+  margin:0;
+  padding:12px 18px;
+  font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:.98rem;
+  white-space:normal;
+}
+
+@media (max-width:700px){
+  /* Watering page: center the complete bouquet as one composition. */
+  .bouquetWrap{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:100%;
+    max-width:100%;
+    height:570px;
+    margin:0 auto;
+    overflow:visible;
+  }
+  .bouquet{
+    position:relative;
+    left:auto;
+    right:auto;
+    margin:0 auto;
+    transform:scale(.70);
+    transform-origin:50% 58%;
+  }
+  .peonies{
+    left:30px;
+    right:30px;
+    transform:none!important;
+  }
+
+  /* Photo page: use the actual phone width instead of scaling a 900px canvas. */
+  .galleryStage{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    min-height:calc(100svh - 64px);
+    padding:30px 10px 110px;
+    overflow-x:hidden;
+    overflow-y:auto;
+  }
+  .sectionTitle,.sectionSubtitle{
+    width:min(620px,100%);
+    margin-left:auto;
+    margin-right:auto;
+    text-align:center;
+  }
+  .photoGarden{
+    position:relative;
+    left:auto;
+    right:auto;
+    width:min(100%,520px);
+    max-width:520px;
+    height:540px;
+    min-height:540px;
+    margin:4px auto 0;
+    transform:none!important;
+    transform-origin:50% 50%;
+    overflow:visible;
+  }
+
+  /* Override inline flower sizes so petals remain visible on phones. */
+  .photoGarden .photoPeony{
+    --size:clamp(66px,18vw,88px)!important;
+  }
+  .photoGarden .gardenFillerFlower{
+    --size:clamp(36px,10vw,50px)!important;
+  }
+
+  /* Give the 12 flowers a softer, layered peony silhouette. */
+  .photoGarden .photoPeony::before{
+    background:
+      radial-gradient(circle at 48% 48%,rgba(255,250,252,.96) 0 10%,transparent 11%),
+      repeating-conic-gradient(from 8deg,
+        #fff0f6 0 9deg,
+        #efabc8 9deg 20deg,
+        #ffd7e7 20deg 31deg,
+        #d982aa 31deg 40deg);
+    border-radius:48% 52% 45% 55% / 53% 45% 55% 47%;
+    box-shadow:
+      inset 0 -8px 16px rgba(119,43,76,.20),
+      inset 0 6px 13px rgba(255,255,255,.58),
+      0 8px 16px rgba(50,17,37,.22);
+  }
+  .photoGarden .photoPeony::after{
+    inset:15%;
+    border-radius:54% 46% 58% 42% / 45% 57% 43% 55%;
+    opacity:.92;
+  }
+
+  /* Visible bouquet wrapping and foliage behind the flower cluster. */
+  .photoGarden::before{
+    content:"";
+    position:absolute;
+    left:50%;
+    bottom:38px;
+    width:min(72%,310px);
+    height:290px;
+    transform:translateX(-50%);
+    clip-path:polygon(46% 0,54% 0,61% 70%,88% 100%,12% 100%,39% 70%);
+    background:
+      linear-gradient(78deg,transparent 0 24%,rgba(40,75,52,.92) 25% 29%,transparent 30% 38%,rgba(75,112,76,.9) 39% 43%,transparent 44% 55%,rgba(44,81,55,.92) 56% 60%,transparent 61%),
+      linear-gradient(102deg,transparent 0 28%,rgba(47,88,59,.9) 29% 33%,transparent 34% 64%,rgba(71,106,72,.88) 65% 69%,transparent 70%);
+    filter:drop-shadow(0 18px 24px rgba(0,0,0,.24));
+    opacity:.94;
+    z-index:0;
+    pointer-events:none;
+  }
+  .photoGarden::after{
+    content:"";
+    position:absolute;
+    left:50%;
+    bottom:5px;
+    width:min(76%,330px);
+    height:165px;
+    transform:translateX(-50%);
+    border-radius:50% 50% 28% 28%;
+    clip-path:polygon(4% 0,96% 0,80% 100%,20% 100%);
+    background:
+      linear-gradient(145deg,rgba(255,238,245,.94),rgba(213,146,178,.9) 52%,rgba(112,61,91,.94));
+    border:1px solid rgba(255,255,255,.35);
+    box-shadow:0 24px 38px rgba(0,0,0,.34),inset 0 7px 15px rgba(255,255,255,.30);
+    z-index:1;
+    pointer-events:none;
+  }
+  .photoGarden .photoPeony,
+  .photoGarden .gardenFillerFlower{z-index:4}
+
+  .allMemoriesMessage:not(.hidden){
+    width:calc(100vw - 20px);
+    padding:15px 14px calc(15px + env(safe-area-inset-bottom));
+    border-radius:22px;
+  }
+
+  /* Every primary control stays centered and tappable. */
+  .btn,.restartExperienceBtn{
+    min-height:46px;
+    max-width:100%;
+  }
+  .controlsBar,.letterPrompt,.confettiControls,.bottomRow{
+    width:100%;
+    max-width:100%;
+    padding-left:10px;
+    padding-right:10px;
+  }
+}
+
+@media (max-width:520px){
+  .bouquetWrap{height:530px}
+  .bouquet{
+    transform:scale(.61);
+    transform-origin:50% 54%;
+  }
+  .photoGarden{
+    width:100%;
+    height:500px;
+    min-height:500px;
+  }
+  .photoGarden .photoPeony{--size:clamp(60px,18vw,76px)!important}
+  .photoGarden .gardenFillerFlower{--size:clamp(32px,9.5vw,43px)!important}
+  .photoGarden::before{height:260px;bottom:34px}
+  .photoGarden::after{height:145px;width:min(82%,310px)}
+}
+
+@media (max-width:430px){
+  .galleryStage{padding-top:24px;padding-bottom:112px}
+  .bouquetWrap{height:500px}
+  .bouquet{
+    transform:scale(.54);
+    transform-origin:50% 51%;
+  }
+  .photoGarden{
+    height:470px;
+    min-height:470px;
+  }
+  .photoGarden .photoPeony{--size:clamp(56px,17.5vw,70px)!important}
+  .photoGarden .gardenFillerFlower{--size:clamp(29px,9vw,39px)!important}
+  .photoGarden::before{height:235px;bottom:32px}
+  .photoGarden::after{height:132px;bottom:8px}
+  .allMemoriesMessage:not(.hidden){
+    font-size:.94rem;
+    max-height:46svh;
+  }
+  .allMemoriesMessage .btn{font-size:.93rem}
+}
+
+@media (max-width:360px){
+  .bouquetWrap{height:470px}
+  .bouquet{transform:scale(.49)}
+  .photoGarden{height:440px;min-height:440px}
+  .photoGarden .photoPeony{--size:54px!important}
+  .photoGarden .gardenFillerFlower{--size:28px!important}
+  .photoGarden::before{height:215px}
+  .photoGarden::after{height:122px}
+}
+
+/* Short phone screens: preserve composition but allow vertical scrolling. */
+@media (max-width:700px) and (max-height:700px){
+  .galleryStage{padding-top:22px}
+  .photoGarden{margin-top:-18px}
+  .allMemoriesMessage:not(.hidden){max-height:52svh}
+}
+
+/* =========================================================
+   RESPONSIVE FINAL — layout stabil pe telefon, tabletă și desktop
+   ========================================================= */
+
+/* 1. Barele de progres rămân permanent vizibile. */
+.step-2 .topBar,
+.step-4 .topBar{
+  position:sticky!important;
+  top:0;
+  z-index:850;
+  width:100%;
+  padding-top:max(12px,env(safe-area-inset-top));
+  background:linear-gradient(180deg,rgba(13,7,18,.97),rgba(20,10,34,.91));
+  border-bottom:1px solid rgba(255,255,255,.10);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+}
+.step-2 .progressWrap{min-width:min(330px,48vw)}
+.step-4 .photoProgress{
+  flex:0 0 auto;
+  min-height:38px;
+  padding:8px 13px;
+  border-radius:999px;
+  background:rgba(255,235,245,.10);
+  border:1px solid rgba(255,255,255,.13);
+  white-space:nowrap;
+}
+
+/* Progresul lumânărilor este un badge fix, vizibil în timpul scrollului. */
+.step-10 #candleCounter{
+  position:fixed;
+  top:max(12px,calc(env(safe-area-inset-top) + 8px));
+  right:max(12px,calc(env(safe-area-inset-right) + 10px));
+  z-index:900;
+  margin:0;
+  padding:9px 14px;
+  border-radius:999px;
+  color:#fff8fb;
+  background:rgba(36,15,29,.88);
+  border:1px solid rgba(255,220,237,.22);
+  box-shadow:0 10px 30px rgba(0,0,0,.30);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  font-weight:800;
+  font-size:.9rem;
+  line-height:1.2;
+  white-space:nowrap;
+}
+
+/* 2. Cardul către tort apare exact în centru, la fel ca overlay-ul înfloririi. */
+.allMemoriesMessage:not(.hidden){
+  position:fixed!important;
+  inset:0!important;
+  z-index:1400!important;
+  width:100%!important;
+  height:100%!important;
+  max-width:none!important;
+  max-height:none!important;
+  padding:max(18px,env(safe-area-inset-top)) 16px max(18px,env(safe-area-inset-bottom))!important;
+  display:grid!important;
+  place-items:center!important;
+  overflow:auto!important;
+  transform:none!important;
+  background:rgba(8,4,12,.70)!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  backdrop-filter:blur(14px)!important;
+  -webkit-backdrop-filter:blur(14px)!important;
+}
+.allMemoriesMessage .cakeContinueCard{
+  width:min(520px,calc(100vw - 28px));
+  max-height:calc(100svh - 36px);
+  overflow:auto;
+  margin:auto;
+  padding:clamp(24px,6vw,38px);
+  border-radius:30px;
+  text-align:center;
+  color:#3e2032;
+  background:linear-gradient(145deg,#fffafd,#ffe2ef 56%,#f5bfd7);
+  border:1px solid rgba(255,255,255,.95);
+  box-shadow:0 30px 90px rgba(0,0,0,.45),0 0 0 1px rgba(182,92,135,.12);
+  animation:finishCardIn .55s var(--ease) both;
+}
+.allMemoriesMessage .cakeContinueCard .finishTitle{
+  color:#532b40;
+  font-size:clamp(1.35rem,5vw,2rem);
+}
+.allMemoriesMessage .cakeContinueCard .finishText{
+  color:#81556a;
+  margin:10px 0 20px;
+}
+.allMemoriesMessage .cakeContinueCard .btn{
+  width:min(320px,100%);
+  min-height:50px;
+  margin:0 auto;
+}
+
+/* 3. Buchetul de la udare rămâne centrat; stropitoarea stă lângă el. */
+.step-2 .stage{
+  position:relative;
+  min-height:calc(100svh - 72px);
+  overflow-x:hidden;
+}
+.step-2 .bouquetWrap{
+  position:relative;
+  width:min(760px,100%);
+  margin-inline:auto;
+}
+.step-2 .bouquet{
+  left:50%!important;
+  margin:0!important;
+  transform:translateX(-50%) scale(1)!important;
+  transform-origin:50% 58%!important;
+}
+.step-2 .wateringCan{
+  z-index:80;
+}
+
+/* 4. Al doilea buchet: grup compact, bogat, cu flori interactive mai închise. */
+.photoGarden{
+  isolation:isolate;
+}
+.photoGarden .photoPeony::before{
+  background:
+    radial-gradient(circle at 50% 49%,rgba(255,242,248,.98) 0 8%,transparent 9%),
+    repeating-conic-gradient(from 7deg,
+      #f4a5c5 0 8deg,
+      #cb6f9a 8deg 17deg,
+      #ef9fbe 17deg 27deg,
+      #b95f8c 27deg 36deg)!important;
+  border-radius:48% 52% 44% 56% / 55% 43% 57% 45%!important;
+  box-shadow:
+    inset 0 -10px 18px rgba(91,29,60,.30),
+    inset 0 7px 14px rgba(255,255,255,.42),
+    0 10px 18px rgba(25,8,19,.27)!important;
+}
+.photoGarden .photoPeony::after{
+  background:repeating-conic-gradient(from 19deg,
+    rgba(255,222,235,.86) 0 8deg,
+    rgba(177,75,124,.70) 8deg 17deg,
+    rgba(237,145,184,.78) 17deg 27deg)!important;
+}
+.photoGarden .gardenFillerFlower::before{
+  filter:saturate(.72) brightness(1.15);
+  opacity:.92;
+}
+.photoGarden .gardenFillerFlower::after{
+  opacity:.62;
+}
+
+/* Tulpini/frunziș și ambalaj în spate, fără să acopere florile. */
+.photoGarden::before{z-index:0!important}
+.photoGarden::after{z-index:1!important}
+.photoGarden .photoPeony{z-index:5!important}
+.photoGarden .gardenFillerFlower{z-index:3!important}
+
+/* 5. Tortul și toate cele 17 lumânări se scalează ca o singură compoziție. */
+.birthdayCake{
+  --cake-width:min(720px,92vw);
+  width:var(--cake-width)!important;
+  max-width:100%;
+  overflow:visible;
+}
+.seventeenCandles{
+  width:74%!important;
+  max-width:530px!important;
+  grid-template-columns:repeat(9,minmax(0,1fr))!important;
+  column-gap:clamp(2px,1vw,8px)!important;
+  row-gap:3px!important;
+}
+.seventeenCandles .candle{
+  width:clamp(16px,3.1vw,26px)!important;
+  height:clamp(68px,12vw,92px)!important;
+  min-width:0!important;
+}
+.seventeenCandles .wax{
+  left:50%!important;
+  transform:translateX(-50%);
+  width:62%!important;
+  height:66%!important;
+}
+.seventeenCandles .candleBase{
+  left:50%!important;
+  transform:translateX(-50%);
+  width:82%!important;
+}
+.seventeenCandles .flame{
+  width:55%!important;
+  height:25%!important;
+  min-width:9px;
+  min-height:17px;
+}
+
+@media (max-width:700px){
+  .step-2 .topBar,.step-4 .topBar{
+    min-height:66px;
+    padding:10px 12px;
+    gap:10px;
+  }
+  .step-2 .brand,.step-4 .brand{font-size:.82rem}
+  .step-2 .progressWrap{
+    min-width:0!important;
+    width:min(52vw,230px);
+    grid-template-columns:1fr auto;
+  }
+  .step-2 .progressLabel{display:none!important}
+  .step-4 .photoProgress{
+    padding:7px 10px;
+    font-size:.83rem;
+  }
+
+  .step-2 .stage{
+    padding-top:18px!important;
+    padding-bottom:90px!important;
+  }
+  .step-2 .waterPrompt{
+    position:relative!important;
+    top:auto!important;
+    width:calc(100% - 24px);
+    margin:8px auto 0;
+  }
+  .step-2 .bouquetWrap{
+    width:100%;
+    height:clamp(440px,67svh,570px)!important;
+  }
+  .step-2 .bouquet{
+    transform:translateX(-50%) scale(clamp(.50,calc(100vw / 720),.72))!important;
+    transform-origin:50% 52%!important;
+  }
+  .step-2 .wateringCan{
+    width:clamp(118px,34vw,155px)!important;
+    height:clamp(86px,25vw,112px)!important;
+    transform:translate(-50%,-50%) rotate(var(--can-rotate,0deg))!important;
+  }
+  .step-2 .controlsBar{
+    position:relative;
+    z-index:90;
+  }
+
+  .galleryStage{
+    padding-top:22px!important;
+    padding-bottom:68px!important;
+  }
+  .photoGarden{
+    width:min(100%,500px)!important;
+    height:clamp(470px,68svh,570px)!important;
+    min-height:470px!important;
+    margin:0 auto!important;
+    transform:none!important;
+  }
+  .photoGarden .photoPeony{
+    --size:clamp(58px,18vw,82px)!important;
+  }
+  .photoGarden .gardenFillerFlower{
+    --size:clamp(31px,9.2vw,45px)!important;
+  }
+
+  /* Regrupare explicită în formă de buchet pe ecrane înguste. */
+  .photoGarden .photoPeony:nth-child(1){left:50%!important;top:7%!important}
+  .photoGarden .photoPeony:nth-child(2){left:34%!important;top:15%!important}
+  .photoGarden .photoPeony:nth-child(3){left:66%!important;top:15%!important}
+  .photoGarden .photoPeony:nth-child(4){left:20%!important;top:29%!important}
+  .photoGarden .photoPeony:nth-child(5){left:40%!important;top:30%!important}
+  .photoGarden .photoPeony:nth-child(6){left:60%!important;top:30%!important}
+  .photoGarden .photoPeony:nth-child(7){left:80%!important;top:29%!important}
+  .photoGarden .photoPeony:nth-child(8){left:29%!important;top:47%!important}
+  .photoGarden .photoPeony:nth-child(9){left:50%!important;top:46%!important}
+  .photoGarden .photoPeony:nth-child(10){left:71%!important;top:47%!important}
+  .photoGarden .photoPeony:nth-child(11){left:39%!important;top:63%!important}
+  .photoGarden .photoPeony:nth-child(12){left:62%!important;top:63%!important}
+
+  .cakeScene{
+    min-height:100svh;
+    padding:76px 8px 50px!important;
+    overflow-x:hidden!important;
+    overflow-y:auto!important;
+  }
+  .cakeCard{
+    width:min(100%,560px)!important;
+    padding:18px 8px 24px!important;
+  }
+  .birthdayCake{
+    width:min(96vw,480px)!important;
+    height:clamp(300px,55svh,370px)!important;
+    transform:none!important;
+    margin:0 auto!important;
+  }
+  .cakeLayer-top,.cakeTop{width:78%!important}
+  .cakeLayer-bottom{width:90%!important}
+  .cakePlate{width:96%!important}
+  .seventeenCandles{
+    width:70%!important;
+    bottom:57%!important;
+    height:31%!important;
+  }
+  .step-10 #candleCounter{
+    top:max(10px,calc(env(safe-area-inset-top) + 7px));
+    right:10px;
+    font-size:.78rem;
+    padding:8px 10px;
+  }
+}
+
+@media (max-width:430px){
+  .step-2 .topBar,.step-4 .topBar{padding-inline:9px}
+  .step-2 .brand span:last-child,.step-4 .brand span:last-child{
+    max-width:112px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  .step-2 .progressWrap{width:48vw}
+  .photoGarden{
+    height:480px!important;
+    min-height:480px!important;
+  }
+  .photoGarden .photoPeony{--size:clamp(54px,17.2vw,69px)!important}
+  .photoGarden .gardenFillerFlower{--size:clamp(28px,8.7vw,38px)!important}
+  .birthdayCake{
+    width:min(98vw,390px)!important;
+    height:305px!important;
+  }
+  .seventeenCandles{
+    width:68%!important;
+    bottom:58%!important;
+    column-gap:1px!important;
+  }
+  .seventeenCandles .candle{
+    width:clamp(13px,4vw,18px)!important;
+    height:68px!important;
+  }
+  .cakeLayer-top{bottom:82px!important;height:98px!important}
+  .cakeLayer-bottom{bottom:27px!important;height:92px!important}
+  .cakeTop{bottom:175px!important;height:44px!important}
+  .cakePlate{bottom:10px!important;height:36px!important}
+}
+
+@media (max-width:360px){
+  .photoGarden{height:450px!important;min-height:450px!important}
+  .photoGarden .photoPeony{--size:52px!important}
+  .birthdayCake{height:285px!important}
+  .seventeenCandles .candle{width:12px!important;height:62px!important}
+  .step-10 #candleCounter{font-size:.72rem}
+}
+
+/* =========================================================
+   FINAL CENTERED COQUETTE RESPONSIVE OVERRIDES
+   ========================================================= */
+:root{
+  --royal-plum:#2a102d;
+  --royal-wine:#5b254d;
+  --powder-pink:#f6c7da;
+  --peony-deep:#d879a5;
+  --peony-light:#f7bfd5;
+  --ivory:#fff8f3;
+  --leaf-dark:#294732;
+  --leaf-mid:#55765a;
+  --gold-soft:#d8b26e;
+}
+
+/* Fine ambient details, still flat and elegant. */
+.bg::before,.bg::after{
+  content:"";position:absolute;inset:-12%;pointer-events:none;
+}
+.bg::before{
+  background:
+    radial-gradient(circle at 18% 22%,rgba(255,224,239,.20) 0 2px,transparent 3px),
+    radial-gradient(circle at 78% 30%,rgba(244,210,153,.16) 0 1.5px,transparent 2.5px),
+    radial-gradient(circle at 64% 78%,rgba(255,236,245,.14) 0 2px,transparent 3px);
+  background-size:180px 180px,230px 230px,290px 290px;
+  animation:royalDust 18s linear infinite;
+  opacity:.75;
+}
+.bg::after{
+  background:radial-gradient(ellipse at 50% 62%,rgba(226,124,170,.12),transparent 52%);
+  filter:blur(18px);
+  animation:royalGlow 8s ease-in-out infinite alternate;
+}
+@keyframes royalDust{to{transform:translate3d(22px,-18px,0)}}
+@keyframes royalGlow{to{opacity:.55;transform:scale(1.04)}}
+
+/* Progress bars stay visible and readable. */
+.step-2 .topBar,.step-4 .topBar{
+  position:sticky!important;top:0!important;z-index:250!important;
+  padding-top:max(10px,env(safe-area-inset-top))!important;
+  background:linear-gradient(180deg,rgba(16,6,22,.96),rgba(25,8,31,.86))!important;
+  box-shadow:0 8px 30px rgba(0,0,0,.18)!important;
+}
+.progressWrap,.photoProgress{flex-shrink:0}
+
+/* FIRST BOUQUET: exact visual centering at every width. */
+.step-2 .stage{
+  display:flex!important;flex-direction:column!important;align-items:center!important;
+  justify-content:flex-start!important;overflow-x:hidden!important;
+  min-height:calc(100svh - 72px)!important;
+}
+.step-2 .waterPrompt{position:relative!important;inset:auto!important;margin:14px auto 2px!important;text-align:center!important;z-index:6!important}
+.step-2 .bouquetWrap{
+  position:relative!important;
+  width:min(760px,100%)!important;
+  height:clamp(500px,68svh,690px)!important;
+  margin:0 auto!important;
+  display:block!important;
+  left:auto!important;right:auto!important;transform:none!important;
+}
+.step-2 .bouquet{
+  --bouquet-scale:1;
+  position:absolute!important;
+  width:560px!important;height:600px!important;
+  left:50%!important;top:50%!important;
+  margin:0!important;
+  transform:translate(-50%,-50%) scale(var(--bouquet-scale))!important;
+  transform-origin:center center!important;
+  animation:none!important;
+}
+.step-2 .bouquet.is-bloomed{animation:flatBouquetBreath 5.5s ease-in-out infinite!important}
+@keyframes flatBouquetBreath{
+  0%,100%{transform:translate(-50%,-50%) scale(var(--bouquet-scale))}
+  50%{transform:translate(-50%,-51%) scale(calc(var(--bouquet-scale) * 1.012))}
+}
+
+/* Rich but refined flower rendering. */
+.peony,.photoPeony,.fillerFlower,.gardenFillerFlower{
+  border:0!important;background:transparent!important;box-shadow:none!important;
+}
+.peony::before,.photoPeony::before,.fillerFlower::before,.gardenFillerFlower::before{
+  content:""!important;position:absolute!important;inset:0!important;border-radius:50%!important;
+  background:
+    radial-gradient(circle at 51% 49%,#fff8fb 0 6%,#f6c4d8 7% 14%,transparent 15%),
+    repeating-conic-gradient(from 5deg,
+      #f9d5e3 0 8deg,#eda8c4 8deg 17deg,#f7c4d7 17deg 26deg,#d983aa 26deg 35deg)!important;
+  filter:drop-shadow(0 10px 12px rgba(67,20,48,.22))!important;
+  box-shadow:inset 0 -8px 14px rgba(104,38,71,.20),inset 0 5px 8px rgba(255,255,255,.42)!important;
+  transform:scale(var(--bloom,1)) rotate(var(--rot,0deg))!important;
+}
+.peony::after,.photoPeony::after,.fillerFlower::after,.gardenFillerFlower::after{
+  content:""!important;position:absolute!important;inset:15%!important;border-radius:50%!important;
+  background:repeating-conic-gradient(from 17deg,
+    rgba(255,239,246,.95) 0 9deg,rgba(218,119,161,.80) 9deg 18deg,
+    rgba(246,182,208,.94) 18deg 28deg,rgba(184,76,127,.68) 28deg 37deg)!important;
+  filter:drop-shadow(0 2px 2px rgba(82,28,56,.15))!important;
+  transform:rotate(calc(var(--rot,0deg) * -.45))!important;
+}
+.photoPeony::before{
+  background:
+    radial-gradient(circle at 51% 49%,#fff7fb 0 6%,#ebb0ca 7% 14%,transparent 15%),
+    repeating-conic-gradient(from 5deg,#f2b7cf 0 8deg,#d77ca7 8deg 17deg,#eca2c0 17deg 26deg,#bb5e8e 26deg 35deg)!important;
+}
+.photoPeony::after{filter:saturate(1.08) brightness(.94)!important}
+.fillerFlower::before,.gardenFillerFlower::before{filter:saturate(.84) brightness(1.08) drop-shadow(0 7px 9px rgba(67,20,48,.16))!important}
+
+/* Proper leaves, not circles. */
+.peonies::before,.photoGarden::before{
+  content:""!important;position:absolute!important;z-index:0!important;
+  left:50%!important;bottom:9%!important;width:68%!important;height:70%!important;
+  transform:translateX(-50%)!important;
+  background:
+    radial-gradient(ellipse at 10% 30%,#496d50 0 10%,transparent 11%),
+    radial-gradient(ellipse at 88% 28%,#355b40 0 11%,transparent 12%),
+    radial-gradient(ellipse at 20% 55%,#5c7c5d 0 12%,transparent 13%),
+    radial-gradient(ellipse at 80% 57%,#416a4a 0 12%,transparent 13%),
+    radial-gradient(ellipse at 35% 72%,#31543b 0 11%,transparent 12%),
+    radial-gradient(ellipse at 66% 74%,#58775a 0 11%,transparent 12%)!important;
+  filter:drop-shadow(0 8px 10px rgba(10,30,18,.25))!important;
+  opacity:.95!important;
+  clip-path:polygon(2% 30%,20% 20%,34% 35%,50% 5%,66% 35%,82% 20%,98% 30%,80% 58%,92% 80%,65% 70%,50% 100%,35% 70%,8% 80%,20% 58%)!important;
+}
+
+/* Watering can: coherent handle attached to the body. */
+.wateringCan{width:172px!important;height:126px!important}
+.canBody{left:38px!important;top:32px!important;width:96px!important;height:74px!important;border-radius:28px 28px 34px 34px!important;background:linear-gradient(145deg,#f6dce6,#bd7e98 55%,#8a516b)!important}
+.canHandle{
+  left:49px!important;top:-26px!important;width:82px!important;height:72px!important;
+  border:11px solid #b97991!important;border-bottom:0!important;border-radius:50px 50px 0 0!important;
+  z-index:-1!important;transform:none!important;
+}
+.canHandle::after{content:"";position:absolute;left:11px;right:11px;top:10px;bottom:0;border:6px solid rgba(255,229,239,.34);border-bottom:0;border-radius:38px 38px 0 0}
+.canSpout{right:-68px!important;top:17px!important}
+.canSpoutTip{right:-82px!important;top:3px!important}
+
+/* Hide test-only controls permanently. */
+#skipBloomBtn{display:none!important}
+.controlsBar{justify-content:center!important}
+
+/* SECOND BOUQUET: centered, full and visibly bouquet-shaped. */
+.galleryStage{display:flex!important;flex-direction:column!important;align-items:center!important;overflow-x:hidden!important}
+.photoGarden{
+  position:relative!important;
+  width:min(760px,100%)!important;
+  height:clamp(570px,72svh,700px)!important;
+  min-height:0!important;
+  margin:8px auto 0!important;
+  left:auto!important;right:auto!important;transform:none!important;
+}
+.photoGarden > *{position:absolute}
+.photoGarden::after{
+  content:""!important;position:absolute!important;left:50%!important;bottom:1%!important;
+  width:42%!important;height:25%!important;transform:translateX(-50%)!important;
+  background:linear-gradient(145deg,rgba(247,218,229,.96),rgba(198,132,163,.90))!important;
+  clip-path:polygon(10% 0,90% 0,72% 100%,28% 100%)!important;
+  border-radius:20px!important;box-shadow:0 18px 26px rgba(25,8,19,.25)!important;z-index:1!important;
+}
+.photoGarden .photoPeony{z-index:6!important}
+.photoGarden .gardenFillerFlower{z-index:4!important}
+.sectionTitle,.sectionSubtitle{text-align:center!important;padding-inline:14px!important}
+
+/* Centered next-step overlay, same visual language as bloom completion. */
+.allMemoriesMessage:not(.hidden){
+  position:fixed!important;inset:0!important;z-index:1000!important;
+  display:grid!important;place-items:center!important;padding:20px!important;
+  background:rgba(12,5,17,.68)!important;backdrop-filter:blur(10px)!important;
+  width:auto!important;height:auto!important;margin:0!important;border:0!important;border-radius:0!important;
+}
+.allMemoriesMessage:not(.hidden)::before{
+  content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 45%,rgba(247,171,205,.18),transparent 48%);pointer-events:none
+}
+.allMemoriesMessage > p,.allMemoriesMessage .cakeContinueCard{
+  position:relative;z-index:1;width:min(430px,calc(100vw - 34px));
+  margin:0!important;padding:28px 22px!important;border-radius:26px!important;text-align:center!important;
+  background:linear-gradient(155deg,rgba(255,248,252,.97),rgba(247,218,232,.96))!important;
+  color:#4b1d3b!important;border:1px solid rgba(139,69,105,.18)!important;
+  box-shadow:0 24px 70px rgba(0,0,0,.36),inset 0 1px 0 #fff!important;
+}
+.allMemoriesMessage > p + .btn{position:absolute!important;left:50%!important;top:calc(50% + 42px)!important;transform:translateX(-50%)!important;z-index:2!important}
+.allMemoriesMessage .btn{display:block!important;margin:18px auto 0!important;min-width:min(280px,80vw)!important;text-align:center!important}
+
+/* Polaroid stays intact and button is centered. */
+.overlayCard{width:min(580px,calc(100vw - 24px))!important}
+.overlayPhotoWrap{background:#fffaf7!important;padding:18px 18px 58px!important;border-radius:7px!important;box-shadow:0 20px 55px rgba(0,0,0,.34)!important;transform:rotate(-.6deg)!important}
+.overlayPhoto{border-radius:3px!important}
+.overlayMemory{text-align:center!important}
+.revealBtn{display:block!important;margin:16px auto 0!important;max-width:calc(100% - 20px)!important}
+
+/* Elegant flat cake and candles constrained to the top surface. */
+.birthdayCake{position:relative!important;width:min(680px,94vw)!important;height:390px!important;margin:0 auto!important}
+.cakeTop{width:78%!important;left:50%!important;bottom:205px!important;transform:translateX(-50%)!important;background:radial-gradient(ellipse at 50% 38%,#fff9fb,#f7c9db 62%,#dd8eb2)!important}
+.cakeLayer-top{width:78%!important;left:50%!important;bottom:96px!important;transform:translateX(-50%)!important;background:linear-gradient(#f9d7e4,#eaa5c2)!important}
+.cakeLayer-bottom{width:91%!important;left:50%!important;bottom:30px!important;transform:translateX(-50%)!important;background:linear-gradient(#edb2ca,#d681aa)!important}
+.cakePlate{left:50%!important;transform:translateX(-50%)!important}
+.seventeenCandles{
+  position:absolute!important;left:50%!important;bottom:218px!important;transform:translateX(-50%)!important;
+  width:64%!important;max-width:none!important;height:122px!important;
+  display:grid!important;grid-template-columns:repeat(9,1fr)!important;grid-auto-rows:58px!important;
+  align-items:end!important;justify-items:center!important;gap:0 3px!important;margin:0!important;z-index:20!important;
+}
+.seventeenCandles .candle{width:20px!important;height:58px!important;align-self:end!important}
+.seventeenCandles .candle:nth-child(n+10){transform:translateX(50%)!important}
+
+@media (max-width:800px){
+  .step-2 .bouquet{--bouquet-scale:clamp(.58,calc((100vw - 26px)/560),.82)}
+  .step-2 .bouquetWrap{height:clamp(470px,65svh,590px)!important}
+  .wateringCan{width:138px!important;height:102px!important}
+  .canBody{left:31px!important;top:27px!important;width:78px!important;height:61px!important}
+  .canHandle{left:39px!important;top:-21px!important;width:68px!important;height:59px!important;border-width:9px!important}
+  .canSpout{right:-57px!important;width:74px!important;height:20px!important}
+  .canSpoutTip{right:-68px!important;width:25px!important;height:43px!important}
+  .photoGarden{width:min(520px,100%)!important;height:clamp(510px,67svh,600px)!important}
+  .photoGarden .photoPeony{--size:clamp(62px,18vw,88px)!important}
+  .photoGarden .gardenFillerFlower{--size:clamp(34px,10vw,48px)!important}
+  .birthdayCake{width:min(520px,96vw)!important;height:335px!important}
+  .cakeTop{bottom:178px!important}
+  .cakeLayer-top{bottom:81px!important;height:105px!important}
+  .cakeLayer-bottom{bottom:25px!important;height:94px!important}
+  .seventeenCandles{bottom:190px!important;width:65%!important;height:103px!important;grid-auto-rows:50px!important}
+  .seventeenCandles .candle{width:16px!important;height:49px!important}
+}
+
+@media (max-width:520px){
+  .step-2 .topBar,.step-4 .topBar{padding-inline:9px!important;gap:8px!important}
+  .step-2 .brand span:last-child,.step-4 .brand span:last-child{font-size:.78rem!important;max-width:105px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .progressWrap{width:49vw!important;min-width:0!important}
+  .progressLabel{display:none!important}
+  .photoProgress{font-size:.78rem!important;padding:7px 9px!important}
+  .step-2 .stage{padding-inline:8px!important;padding-bottom:72px!important}
+  .step-2 .waterPrompt{font-size:.92rem!important;margin-top:9px!important}
+  .step-2 .bouquetWrap{height:500px!important}
+  .step-2 .bouquet{--bouquet-scale:clamp(.52,calc((100vw - 12px)/560),.68)}
+  .photoGarden{height:520px!important;width:100%!important}
+  .photoGarden .photoPeony{--size:clamp(57px,17vw,72px)!important}
+  .photoGarden .gardenFillerFlower{--size:clamp(30px,9vw,40px)!important}
+  .galleryStage{padding-inline:7px!important;padding-top:22px!important}
+  .sectionTitle{font-size:clamp(1.25rem,6vw,1.65rem)!important}
+  .birthdayCake{width:min(390px,98vw)!important;height:300px!important}
+  .cakeTop{bottom:159px!important;height:42px!important}
+  .cakeLayer-top{bottom:70px!important;height:96px!important}
+  .cakeLayer-bottom{bottom:22px!important;height:82px!important}
+  .cakePlate{height:34px!important}
+  .seventeenCandles{bottom:170px!important;width:66%!important;height:90px!important;grid-auto-rows:43px!important;gap:0 1px!important}
+  .seventeenCandles .candle{width:13px!important;height:42px!important}
+  .overlayCard{max-height:92svh!important;overflow:auto!important}
+}
+
+@media (max-width:360px){
+  .step-2 .bouquetWrap{height:460px!important}
+  .photoGarden{height:485px!important}
+  .photoGarden .photoPeony{--size:54px!important}
+  .photoGarden .gardenFillerFlower{--size:29px!important}
+  .birthdayCake{height:280px!important}
+  .cakeTop{bottom:148px!important}
+  .cakeLayer-top{bottom:64px!important;height:90px!important}
+  .cakeLayer-bottom{height:76px!important}
+  .seventeenCandles{bottom:158px!important;width:68%!important}
+  .seventeenCandles .candle{width:11px!important;height:38px!important}
+}
+
+/* =========================================================
+   RELEASE FIX — stable responsive composition
+   Keeps every screen centred and fully visible.
+   ========================================================= */
+
+html, body { min-width: 0; }
+body { overflow-x: hidden; }
+.step.active {
+  min-height: 100svh;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* Watering page: text and composition always centred. */
+.step-2 .layout { min-height: 100svh; }
+.step-2 .stage {
+  width: 100%;
+  min-height: calc(100svh - 76px) !important;
+  padding: 18px 16px max(84px, env(safe-area-inset-bottom)) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  overflow: visible !important;
+}
+.step-2 .waterPrompt {
+  position: relative !important;
+  inset: auto !important;
+  transform: none !important;
+  width: min(620px, calc(100vw - 28px)) !important;
+  margin: 12px auto 4px !important;
+  padding: 0 8px !important;
+  text-align: center !important;
+  align-self: center !important;
+}
+.step-2 .waterPromptTitle,
+.step-2 .waterPromptText { text-align: center !important; }
+.step-2 .bouquetWrap {
+  flex: 0 0 auto;
+  width: min(760px, 100%) !important;
+  height: clamp(470px, 66svh, 650px) !important;
+  margin: 0 auto !important;
+  overflow: visible !important;
+}
+.step-2 .bouquet {
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) scale(var(--bouquet-scale, 1)) !important;
+  transform-origin: 50% 50% !important;
+}
+
+/* Watering can: flat, coherent, attached handle. */
+.wateringCan {
+  width: 160px !important;
+  height: 118px !important;
+  transform: translate(-50%, -50%) rotate(var(--can-rotate, 0deg)) !important;
+}
+.canBody {
+  left: 34px !important;
+  top: 34px !important;
+  width: 92px !important;
+  height: 68px !important;
+  border-radius: 26px 26px 32px 32px !important;
+  background: linear-gradient(145deg, #f8dce7 0%, #d99bb4 48%, #a76382 100%) !important;
+  border: 1px solid rgba(255,255,255,.34) !important;
+  box-shadow: inset 5px 5px 10px rgba(255,255,255,.28), inset -5px -8px 11px rgba(84,33,60,.17) !important;
+}
+.canHandle {
+  left: 49px !important;
+  top: -24px !important;
+  width: 72px !important;
+  height: 66px !important;
+  border: 10px solid #b87390 !important;
+  border-bottom: 0 !important;
+  border-radius: 46px 46px 0 0 !important;
+  z-index: -1 !important;
+  box-shadow: inset 4px 3px 0 rgba(255,232,241,.30) !important;
+}
+.canHandle::after { display: none !important; }
+.canSpout {
+  right: -60px !important;
+  top: 18px !important;
+  width: 76px !important;
+  height: 22px !important;
+  background: linear-gradient(180deg,#e5afc2,#aa6683) !important;
+}
+.canSpoutTip { right: -72px !important; top: 4px !important; }
+
+/* Photo bouquet page: centred and fully scrollable on short screens. */
+.step-4 .galleryStage {
+  min-height: calc(100svh - 72px) !important;
+  width: 100%;
+  padding: 22px 12px max(92px, env(safe-area-inset-bottom)) !important;
+  overflow: visible !important;
+}
+.step-4 .sectionTitle,
+.step-4 .sectionSubtitle { width: min(700px, 100%); margin-inline: auto !important; text-align: center !important; }
+.photoGarden {
+  flex: 0 0 auto;
+  width: min(720px, 100%) !important;
+  height: clamp(500px, 68svh, 680px) !important;
+  margin: 8px auto 0 !important;
+  overflow: visible !important;
+}
+
+/* Keep completion popup genuinely centred. */
+.allMemoriesMessage:not(.hidden) {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 14px !important;
+  padding: max(20px, env(safe-area-inset-top)) 18px max(20px, env(safe-area-inset-bottom)) !important;
+}
+.allMemoriesMessage:not(.hidden) > p {
+  width: min(430px, 100%) !important;
+  padding: 28px 22px 78px !important;
+}
+.allMemoriesMessage:not(.hidden) > p + .btn {
+  position: fixed !important;
+  left: 50% !important;
+  top: 50% !important;
+  margin-top: 45px !important;
+  transform: translate(-50%, -50%) !important;
+  width: min(290px, calc(100vw - 58px)) !important;
+  min-height: 48px !important;
+}
+
+/* Cake screen: centred, scrollable, elegant flat illustration. */
+.step-10 .finalScene {
+  width: 100%;
+  min-height: 100svh !important;
+  padding: max(70px, env(safe-area-inset-top)) 14px max(52px, env(safe-area-inset-bottom)) !important;
+  justify-content: flex-start !important;
+  overflow: visible !important;
+}
+.step-10 .finalTitleBlock { width: min(760px, 100%); margin: 0 auto 16px; text-align: center; }
+.step-10 .cakeCard {
+  width: min(820px, 100%) !important;
+  margin: 0 auto !important;
+  padding: 24px 12px 28px !important;
+  border-radius: 30px !important;
+}
+.birthdayCake {
+  --cake-scale: 1;
+  width: 680px !important;
+  max-width: none !important;
+  height: 390px !important;
+  left: 50%;
+  transform: translateX(-50%) scale(var(--cake-scale)) !important;
+  transform-origin: 50% 100% !important;
+  margin: 0 0 calc((var(--cake-scale) - 1) * 390px) !important;
+}
+
+/* Sophisticated flat cake: icing, piping, flowers, pearls. */
+.cakeLayer-bottom {
+  left: 50% !important;
+  bottom: 34px !important;
+  width: 620px !important;
+  height: 112px !important;
+  transform: translateX(-50%) !important;
+  border-radius: 30px 30px 25px 25px !important;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.45), transparent 18%),
+    linear-gradient(180deg,#f8c9db 0%,#eda8c5 58%,#d983aa 100%) !important;
+}
+.cakeLayer-bottom::before {
+  content: "";
+  position: absolute;
+  left: 18px; right: 18px; top: 17px;
+  height: 18px;
+  background: radial-gradient(circle, #fff5fa 0 4px, #d98aaf 4.5px 6px, transparent 6.5px) 0 0 / 32px 18px repeat-x;
+  opacity: .9;
+}
+.cakeLayer-top {
+  left: 50% !important;
+  bottom: 126px !important;
+  width: 520px !important;
+  height: 116px !important;
+  transform: translateX(-50%) !important;
+  border-radius: 30px 30px 23px 23px !important;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.55),transparent 18%),
+    linear-gradient(180deg,#ffe5ef 0%,#f5bdd3 55%,#e89cbd 100%) !important;
+}
+.cakeLayer-top::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: -1px;
+  height: 33px;
+  background:
+    radial-gradient(22px 24px at 30px 0,#fff9fc 0 20px,transparent 21px) 0 0 / 60px 33px repeat-x;
+  opacity: .95;
+}
+.cakeTop {
+  left: 50% !important;
+  bottom: 226px !important;
+  width: 520px !important;
+  height: 52px !important;
+  transform: translateX(-50%) !important;
+  border-radius: 50% !important;
+  background: radial-gradient(ellipse at 50% 34%,#fffdfd 0%,#ffe4ef 58%,#e9a1c0 100%) !important;
+  box-shadow: 0 8px 14px rgba(118,54,83,.15), inset 0 3px 8px rgba(255,255,255,.9) !important;
+}
+.cakePlate {
+  left: 50% !important;
+  bottom: 12px !important;
+  width: 660px !important;
+  height: 42px !important;
+  transform: translateX(-50%) !important;
+}
+.cakeFlower {
+  width: 34px !important;
+  height: 34px !important;
+  border-radius: 50% !important;
+  background: repeating-conic-gradient(#f8ccdc 0 12deg,#d983aa 12deg 24deg,#f4b5cd 24deg 36deg) !important;
+  box-shadow: inset 0 0 0 8px rgba(255,239,246,.45), 0 4px 8px rgba(93,41,67,.16) !important;
+}
+.cakePearl { background: #fff6f8 !important; box-shadow: 0 2px 5px rgba(100,45,72,.22), inset 0 1px 2px white !important; }
+
+/* Candles sit on the top icing, with visible flames. */
+.seventeenCandles {
+  position: absolute !important;
+  left: 50% !important;
+  bottom: 252px !important;
+  width: 430px !important;
+  height: 94px !important;
+  transform: translateX(-50%) !important;
+  display: grid !important;
+  grid-template-columns: repeat(9, 1fr) !important;
+  grid-template-rows: 46px 46px !important;
+  align-items: end !important;
+  justify-items: center !important;
+  gap: 2px 4px !important;
+  z-index: 20 !important;
+}
+.seventeenCandles .candle {
+  position: relative !important;
+  width: 24px !important;
+  height: 70px !important;
+  margin: 0 !important;
+  align-self: end !important;
+  transform: none !important;
+  overflow: visible !important;
+}
+.seventeenCandles .candle:nth-child(n+10) { transform: translateX(50%) !important; }
+.seventeenCandles .wax {
+  left: 4px !important;
+  bottom: 0 !important;
+  width: 16px !important;
+  height: 48px !important;
+  border-radius: 6px 6px 4px 4px !important;
+  background: repeating-linear-gradient(90deg,#fff3f8 0 4px,#df91b5 4px 8px) !important;
+}
+.seventeenCandles .candleBase {
+  left: 2px !important;
+  bottom: -2px !important;
+  width: 20px !important;
+  height: 8px !important;
+}
+.seventeenCandles .flame {
+  display: block !important;
+  opacity: 1;
+  visibility: visible !important;
+  left: 50% !important;
+  top: 0 !important;
+  width: 14px !important;
+  height: 22px !important;
+  transform: translateX(-50%) !important;
+  z-index: 4 !important;
+}
+.seventeenCandles .candle.out .flame { opacity: 0 !important; transform: translateX(-50%) scale(.2) !important; }
+#candleCounter {
+  position: sticky;
+  bottom: max(8px, env(safe-area-inset-bottom));
+  z-index: 50;
+  width: fit-content;
+  max-width: calc(100vw - 30px);
+  margin: 10px auto !important;
+  padding: 9px 16px;
+  border-radius: 999px;
+  background: rgba(31,11,34,.86);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,.17);
+}
+
+/* Device scaling: keep the entire composition visible instead of clipping it. */
+@media (max-width: 760px) {
+  .step-2 .bouquetWrap { height: 500px !important; }
+  .step-2 .bouquet { --bouquet-scale: min(.82, calc((100vw - 24px) / 560)); }
+  .wateringCan { width: 132px !important; height: 100px !important; }
+  .canBody { left: 29px !important; top: 29px !important; width: 76px !important; height: 57px !important; }
+  .canHandle { left: 40px !important; top: -19px !important; width: 59px !important; height: 52px !important; border-width: 8px !important; }
+  .canSpout { right: -50px !important; top: 15px !important; width: 62px !important; height: 18px !important; }
+  .canSpoutTip { right: -60px !important; top: 3px !important; width: 22px !important; height: 36px !important; }
+
+  .photoGarden { height: 525px !important; }
+  .birthdayCake { --cake-scale: calc((100vw - 34px) / 680); }
+  .step-10 .cakeCard { overflow: hidden !important; }
+}
+
+@media (max-width: 520px) {
+  .step-2 .stage { padding-top: 8px !important; }
+  .step-2 .waterPrompt { margin-top: 8px !important; }
+  .step-2 .waterPromptTitle { font-size: clamp(1.25rem, 6vw, 1.65rem) !important; }
+  .step-2 .waterPromptText { font-size: .88rem !important; }
+  .step-2 .bouquetWrap { height: 455px !important; }
+  .step-2 .bouquet { --bouquet-scale: calc((100vw - 18px) / 560); }
+  .photoGarden { height: 500px !important; }
+  .step-10 .finalScene { padding-inline: 8px !important; }
+  .step-10 .cakeCard { padding-inline: 4px !important; }
+  .birthdayCake { --cake-scale: calc((100vw - 22px) / 680); }
+  .cakeInstruction, .cakeTopMessage { padding-inline: 12px; }
+}
+
+@media (max-height: 620px) and (orientation: landscape) {
+  .step-2 .bouquetWrap { height: 430px !important; }
+  .step-2 .bouquet { --bouquet-scale: .62; }
+  .photoGarden { height: 470px !important; }
+  .step-10 .finalScene { justify-content: flex-start !important; }
+}
+
+
+/* =========================================================
+   FINAL VISUAL HOTFIX — 2026-08-01
+   Only the watering screen, cake transition and cake screen.
+   ========================================================= */
+
+/* --- The button to the cake is one centered card, on every device. --- */
+.allMemoriesMessage:not(.hidden){
+  position:fixed!important;
+  inset:0!important;
+  z-index:1600!important;
+  width:100%!important;
+  height:100%!important;
+  display:grid!important;
+  place-items:center!important;
+  padding:clamp(16px,4vw,36px)!important;
+  background:rgba(12,5,18,.72)!important;
+  backdrop-filter:blur(14px)!important;
+  -webkit-backdrop-filter:blur(14px)!important;
+}
+.cakeContinueCard{
+  width:min(430px,calc(100vw - 32px));
+  padding:clamp(25px,5vw,38px) clamp(20px,5vw,34px) clamp(22px,4vw,30px);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:18px;
+  text-align:center;
+  border-radius:28px;
+  color:#fff7fb;
+  background:linear-gradient(155deg,rgba(255,246,251,.18),rgba(255,205,229,.09));
+  border:1px solid rgba(255,225,239,.28);
+  box-shadow:0 24px 70px rgba(0,0,0,.42),inset 0 1px 0 rgba(255,255,255,.18);
+  animation:memoryIn .5s var(--ease) both;
+}
+.cakeContinueCard p{
+  width:auto!important;
+  margin:0!important;
+  padding:0!important;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(1.25rem,4.6vw,1.75rem);
+  line-height:1.35;
+}
+.cakeContinueCard .btn{
+  position:static!important;
+  inset:auto!important;
+  transform:none!important;
+  margin:0!important;
+  width:min(290px,100%)!important;
+  min-height:50px;
+}
+
+/* --- Watering page: true centre, no relative-position double shift. --- */
+.step-2 .layout{min-height:100svh!important;}
+.step-2 .stage{
+  width:100%!important;
+  min-height:calc(100svh - 76px)!important;
+  padding:clamp(12px,2.2vh,22px) 14px max(76px,env(safe-area-inset-bottom))!important;
+  display:grid!important;
+  grid-template-rows:auto minmax(420px,1fr) auto!important;
+  justify-items:center!important;
+  align-items:center!important;
+  gap:4px!important;
+  overflow:visible!important;
+}
+.step-2 .waterPrompt{
+  position:relative!important;
+  inset:auto!important;
+  transform:none!important;
+  width:min(650px,calc(100vw - 28px))!important;
+  margin:0 auto!important;
+  padding:0 8px!important;
+  align-self:start!important;
+  text-align:center!important;
+}
+.step-2 .waterPromptTitle,
+.step-2 .waterPromptText{
+  text-align:center!important;
+  margin-inline:auto!important;
+}
+.step-2 .bouquetWrap{
+  position:relative!important;
+  width:min(760px,100%)!important;
+  height:clamp(430px,68svh,650px)!important;
+  margin:0 auto!important;
+  overflow:visible!important;
+  place-self:center!important;
+}
+.step-2 .bouquet{
+  position:absolute!important;
+  left:50%!important;
+  top:50%!important;
+  margin:0!important;
+  --bouquet-scale:.88;
+  transform:translate(-50%,-50%) scale(var(--bouquet-scale))!important;
+  transform-origin:50% 50%!important;
+}
+.step-2 .bouquet.is-bloomed{
+  animation:none!important;
+}
+.step-2 .controlsBar{
+  position:relative!important;
+  inset:auto!important;
+  width:min(520px,calc(100vw - 28px))!important;
+  margin:0 auto!important;
+  justify-content:center!important;
+  text-align:center!important;
+}
+
+/* Coherent watering can with a handle attached to the body. */
+.wateringCan{
+  width:150px!important;
+  height:112px!important;
+  transform:translate(-50%,-50%) rotate(var(--can-rotate,0deg))!important;
+  transform-origin:50% 55%!important;
+}
+.canBody{
+  position:absolute!important;
+  left:30px!important;
+  top:36px!important;
+  width:88px!important;
+  height:62px!important;
+  border-radius:24px 24px 30px 30px!important;
+  background:linear-gradient(145deg,#f7d5e3 0%,#d995b2 55%,#aa617f 100%)!important;
+  border:1px solid rgba(255,255,255,.34)!important;
+  box-shadow:inset 5px 5px 9px rgba(255,255,255,.30),inset -5px -7px 10px rgba(91,39,63,.15),0 10px 20px rgba(0,0,0,.20)!important;
+}
+.canHandle{
+  position:absolute!important;
+  left:50%!important;
+  top:-31px!important;
+  width:65px!important;
+  height:53px!important;
+  transform:translateX(-50%)!important;
+  border:8px solid #b96e8e!important;
+  border-bottom:0!important;
+  border-radius:42px 42px 0 0!important;
+  z-index:-1!important;
+  box-shadow:inset 3px 3px 0 rgba(255,230,241,.25)!important;
+}
+.canSpout{
+  position:absolute!important;
+  right:-57px!important;
+  top:15px!important;
+  width:70px!important;
+  height:20px!important;
+  border-radius:5px 16px 16px 5px!important;
+  background:linear-gradient(180deg,#e6b1c5,#ad6885)!important;
+  transform:rotate(-7deg)!important;
+}
+.canSpoutTip{
+  position:absolute!important;
+  right:-72px!important;
+  top:0!important;
+  width:26px!important;
+  height:37px!important;
+  border-radius:50%!important;
+  background:linear-gradient(90deg,#c37b99,#e1a9bf)!important;
+  transform:rotate(-7deg)!important;
+}
+.canHint{bottom:-2px!important;}
+
+/* --- Cake screen: calm, flat, elegant and genuinely responsive. --- */
+.step-10 .finalScene{
+  width:100%!important;
+  min-height:100svh!important;
+  padding:max(26px,env(safe-area-inset-top)) 14px max(38px,env(safe-area-inset-bottom))!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:14px!important;
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+}
+.step-10 .finalGlow{
+  inset:12% 8%!important;
+  border-radius:50%!important;
+  background:radial-gradient(circle,rgba(248,176,207,.18),rgba(153,74,123,.06) 48%,transparent 72%)!important;
+  filter:blur(28px)!important;
+  pointer-events:none!important;
+}
+.step-10 .finalTitleBlock{
+  width:min(780px,100%)!important;
+  margin:0 auto 4px!important;
+  text-align:center!important;
+}
+.step-10 .finalTitle{
+  font-size:clamp(2rem,5.5vw,4.8rem)!important;
+  line-height:1.02!important;
+  margin:0 0 10px!important;
+  overflow-wrap:anywhere;
+}
+.step-10 .finalSubtitle{
+  width:min(680px,100%);
+  margin:0 auto!important;
+  font-size:clamp(.92rem,2.2vw,1.08rem)!important;
+  line-height:1.45!important;
+}
+.step-10 .cakeCard{
+  position:relative!important;
+  width:min(900px,100%)!important;
+  margin:0 auto!important;
+  padding:clamp(18px,3vw,28px) clamp(10px,2.5vw,22px) clamp(20px,3vw,30px)!important;
+  overflow:visible!important;
+  border-radius:30px!important;
+}
+.cakeTopMessage{
+  margin:0 auto 4px!important;
+  font-size:clamp(1.15rem,3vw,1.7rem)!important;
+}
+.birthdayCake{
+  position:relative!important;
+  left:auto!important;
+  width:min(680px,100%)!important;
+  height:auto!important;
+  aspect-ratio:680/390!important;
+  margin:0 auto!important;
+  transform:none!important;
+  overflow:visible!important;
+  filter:drop-shadow(0 22px 24px rgba(0,0,0,.26))!important;
+}
+.cakeLayer-bottom{
+  left:50%!important;
+  bottom:6%!important;
+  width:91%!important;
+  height:29%!important;
+  transform:translateX(-50%)!important;
+  border-radius:7% 7% 6% 6%!important;
+  background:linear-gradient(180deg,#f9cfe0 0%,#efacc8 58%,#db86ad 100%)!important;
+  box-shadow:inset 0 6px 10px rgba(255,255,255,.34),inset 0 -12px 18px rgba(134,59,94,.10)!important;
+}
+.cakeLayer-bottom::before{
+  content:""!important;
+  position:absolute!important;
+  left:3%!important;right:3%!important;top:15%!important;
+  height:17%!important;
+  background:radial-gradient(circle,#fff7fb 0 29%,#d987ad 31% 45%,transparent 47%) 0 0/5.2% 100% repeat-x!important;
+}
+.cakeLayer-top{
+  left:50%!important;
+  bottom:31%!important;
+  width:76%!important;
+  height:31%!important;
+  transform:translateX(-50%)!important;
+  border-radius:8% 8% 6% 6%!important;
+  background:linear-gradient(180deg,#ffe8f1 0%,#f5bed4 58%,#e89abb 100%)!important;
+  box-shadow:inset 0 6px 10px rgba(255,255,255,.42),inset 0 -12px 18px rgba(134,59,94,.09)!important;
+}
+.cakeLayer-top::before{
+  content:""!important;
+  position:absolute!important;
+  inset:-1px 0 auto!important;
+  height:28%!important;
+  border-radius:50%!important;
+  background:radial-gradient(ellipse at 50% 0,#fff9fc 0 66%,transparent 68%) 0 0/12% 100% repeat-x!important;
+}
+.cakeTop{
+  left:50%!important;
+  bottom:58%!important;
+  width:76%!important;
+  height:13%!important;
+  transform:translateX(-50%)!important;
+  border-radius:50%!important;
+  background:radial-gradient(ellipse at 50% 35%,#fffdfd 0%,#ffe3ee 61%,#eaa1bf 100%)!important;
+  box-shadow:0 7px 12px rgba(110,49,76,.14),inset 0 3px 7px rgba(255,255,255,.88)!important;
+}
+.cakePlate{
+  left:50%!important;
+  bottom:0!important;
+  width:97%!important;
+  height:11%!important;
+  transform:translateX(-50%)!important;
+  border-radius:50%!important;
+  background:linear-gradient(180deg,#fffdfd,#ead3dd)!important;
+}
+.cakeFlower{
+  width:clamp(18px,5%,34px)!important;
+  height:clamp(18px,5%,34px)!important;
+  background:radial-gradient(circle at 50% 50%,#fff7fb 0 13%,#f4b1cc 15% 37%,#d67ba5 39% 57%,transparent 59%)!important;
+  box-shadow:0 3px 6px rgba(83,31,56,.15)!important;
+}
+.cakePearl{width:1.5%!important;height:auto!important;aspect-ratio:1!important;}
+
+/* Every candle has the same baseline on the upper icing. */
+.seventeenCandles{
+  position:absolute!important;
+  left:50%!important;
+  bottom:65%!important;
+  width:69%!important;
+  height:25%!important;
+  transform:translateX(-50%)!important;
+  display:flex!important;
+  flex-wrap:nowrap!important;
+  align-items:flex-end!important;
+  justify-content:space-between!important;
+  gap:0!important;
+  margin:0!important;
+  z-index:20!important;
+  pointer-events:none!important;
+}
+.seventeenCandles .candle,
+.seventeenCandles .candle:nth-child(n+10){
+  position:relative!important;
+  flex:0 0 4.7%!important;
+  width:auto!important;
+  height:100%!important;
+  margin:0!important;
+  padding:0!important;
+  transform:none!important;
+  align-self:flex-end!important;
+  overflow:visible!important;
+  pointer-events:auto!important;
+  border:0!important;
+  background:none!important;
+}
+.seventeenCandles .candle:hover,
+.seventeenCandles .candle:nth-child(n+10):hover{transform:translateY(-2px)!important;}
+.seventeenCandles .wax{
+  position:absolute!important;
+  left:50%!important;
+  bottom:0!important;
+  width:62%!important;
+  height:58%!important;
+  transform:translateX(-50%)!important;
+  border-radius:30% 30% 18% 18%!important;
+  background:repeating-linear-gradient(90deg,#fff2f7 0 35%,#df8fb4 35% 68%,#f9c8da 68% 100%)!important;
+  box-shadow:inset 2px 0 3px rgba(255,255,255,.30)!important;
+}
+.seventeenCandles .candleBase{
+  position:absolute!important;
+  left:50%!important;
+  bottom:-2%!important;
+  width:82%!important;
+  height:10%!important;
+  transform:translateX(-50%)!important;
+  border-radius:50%!important;
+  background:#a75d80!important;
+}
+.seventeenCandles .flame{
+  display:block!important;
+  position:absolute!important;
+  left:50%!important;
+  top:8%!important;
+  width:58%!important;
+  height:27%!important;
+  min-width:7px!important;
+  min-height:13px!important;
+  transform:translateX(-50%)!important;
+  opacity:1!important;
+  visibility:visible!important;
+  z-index:4!important;
+}
+.seventeenCandles .candle.out .flame{opacity:0!important;transform:translateX(-50%) scale(.2)!important;}
+.step-10 #candleCounter{
+  position:static!important;
+  inset:auto!important;
+  display:inline-flex!important;
+  width:auto!important;
+  height:auto!important;
+  max-width:calc(100vw - 36px)!important;
+  margin:4px auto 8px!important;
+  padding:8px 14px!important;
+  border-radius:999px!important;
+  font-size:clamp(.78rem,2vw,.92rem)!important;
+  white-space:nowrap!important;
+  background:rgba(43,18,36,.68)!important;
+}
+.cakeInstruction{margin:2px auto 0!important;}
+
+@media(max-width:700px){
+  .step-2 .stage{
+    grid-template-rows:auto minmax(390px,1fr) auto!important;
+    padding-inline:8px!important;
+  }
+  .step-2 .bouquetWrap{height:clamp(400px,61svh,510px)!important;}
+  .step-2 .bouquet{
+    --bouquet-scale:clamp(.51,calc((100vw - 28px)/560),.68);
+  }
+  .wateringCan{width:126px!important;height:96px!important;}
+  .canBody{left:25px!important;top:31px!important;width:74px!important;height:53px!important;}
+  .canHandle{top:-25px!important;width:54px!important;height:44px!important;border-width:7px!important;}
+  .canSpout{right:-48px!important;top:13px!important;width:58px!important;height:17px!important;}
+  .canSpoutTip{right:-60px!important;width:22px!important;height:31px!important;}
+
+  .step-10 .finalScene{justify-content:flex-start!important;padding-top:max(18px,env(safe-area-inset-top))!important;}
+  .step-10 .finalTitle{font-size:clamp(1.85rem,9vw,3rem)!important;}
+  .step-10 .cakeCard{padding-inline:7px!important;border-radius:24px!important;}
+  .birthdayCake{width:min(620px,100%)!important;}
+  .cakeContinueCard{transform:translateY(-4vh);}
+}
+
+@media(max-width:420px){
+  .step-2 .stage{grid-template-rows:auto minmax(365px,1fr) auto!important;}
+  .step-2 .bouquetWrap{height:390px!important;}
+  .step-2 .waterPromptTitle{font-size:1.35rem!important;}
+  .step-2 .waterPromptText{font-size:.84rem!important;}
+  .step-10 .finalSubtitle{font-size:.88rem!important;}
+  .cakeTopMessage{font-size:1.12rem!important;}
+  .cakeInstruction{font-size:.82rem!important;}
+}
+
+@media(max-height:650px) and (orientation:landscape){
+  .step-2 .stage{grid-template-rows:auto 385px auto!important;}
+  .step-2 .bouquetWrap{height:385px!important;}
+  .step-2 .bouquet{--bouquet-scale:.55;}
+  .step-10 .finalScene{justify-content:flex-start!important;}
+  .step-10 .finalTitleBlock{margin-bottom:0!important;}
+  .birthdayCake{width:min(560px,90vw)!important;}
+}
+
+/* =========================================================
+   LAST POLISH — fixed progress indicators + clean cake overlay
+   ========================================================= */
+
+/* The transition card must never create a stray horizontal scrollbar. */
+.allMemoriesMessage:not(.hidden),
+.allMemoriesMessage:not(.hidden) .cakeContinueCard{
+  overflow:hidden!important;
+  overflow-x:hidden!important;
+  overflow-y:hidden!important;
+  scrollbar-width:none!important;
+  -ms-overflow-style:none!important;
+}
+.allMemoriesMessage:not(.hidden)::-webkit-scrollbar,
+.allMemoriesMessage:not(.hidden) .cakeContinueCard::-webkit-scrollbar{
+  display:none!important;
+  width:0!important;
+  height:0!important;
+}
+.allMemoriesMessage:not(.hidden) .cakeContinueCard{
+  max-width:calc(100vw - 32px)!important;
+  max-height:calc(100svh - 32px)!important;
+}
+
+/* Keep the watering and photo progress bars permanently visible. */
+.step-2 .topBar,
+.step-4 .topBar{
+  position:fixed!important;
+  top:0!important;
+  left:0!important;
+  right:0!important;
+  width:100%!important;
+  z-index:1450!important;
+  margin:0!important;
+  background:linear-gradient(180deg,rgba(15,6,22,.96),rgba(24,8,34,.90))!important;
+  border-bottom:1px solid rgba(255,221,239,.17)!important;
+  box-shadow:0 10px 30px rgba(0,0,0,.22)!important;
+  backdrop-filter:blur(18px)!important;
+  -webkit-backdrop-filter:blur(18px)!important;
+}
+
+/* Reserve room beneath the fixed bars so content is never hidden behind them. */
+.step-2 .stage{
+  padding-top:clamp(96px,13vh,122px)!important;
+}
+.step-4 .galleryStage{
+  padding-top:clamp(112px,15vh,138px)!important;
+}
+
+/* Candle progress remains visible while the cake page scrolls. */
+.step-10 #candleCounter{
+  position:fixed!important;
+  top:max(12px,env(safe-area-inset-top))!important;
+  left:50%!important;
+  right:auto!important;
+  bottom:auto!important;
+  transform:translateX(-50%)!important;
+  z-index:1450!important;
+  margin:0!important;
+  background:rgba(43,18,36,.88)!important;
+  border:1px solid rgba(255,225,239,.22)!important;
+  box-shadow:0 9px 24px rgba(0,0,0,.28)!important;
+  backdrop-filter:blur(14px)!important;
+  -webkit-backdrop-filter:blur(14px)!important;
+}
+.step-10 .finalScene{
+  padding-top:max(72px,calc(env(safe-area-inset-top) + 62px))!important;
+}
+
+@media(max-width:700px){
+  .step-2 .topBar,
+  .step-4 .topBar{
+    min-height:66px!important;
+    padding:10px 12px!important;
+  }
+  .step-2 .stage{
+    padding-top:88px!important;
+  }
+  .step-4 .galleryStage{
+    padding-top:96px!important;
+  }
+  .step-10 #candleCounter{
+    top:max(8px,env(safe-area-inset-top))!important;
+    max-width:calc(100vw - 20px)!important;
+    font-size:.78rem!important;
+    padding:7px 12px!important;
+  }
+  .step-10 .finalScene{
+    padding-top:max(60px,calc(env(safe-area-inset-top) + 52px))!important;
+  }
+}
+
+@media(max-width:390px){
+  .step-2 .topBar,
+  .step-4 .topBar{
+    padding-inline:8px!important;
+    gap:7px!important;
+  }
+  .step-2 .stage{padding-top:84px!important;}
+  .step-4 .galleryStage{padding-top:92px!important;}
+}
